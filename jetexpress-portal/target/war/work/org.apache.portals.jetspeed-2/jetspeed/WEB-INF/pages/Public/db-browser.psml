@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<page id="db-browser"
+    xmlns="http://portals.apache.org/jetspeed"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://portals.apache.org/jetspeed http://portals.apache.org/jetspeed-2/2.2/schemas/psml.xsd">
+  <title>DB Browser Demo</title>
+  <metadata name="title" xml:lang="ja">DBブラウザデモ</metadata>
+  <metadata name="title" xml:lang="es">Navegador de Base de Datos</metadata>
+  <metadata name="title" xml:lang="hu">Adatbázis tallózó demo</metadata>
+  <metadata name="title" xml:lang="zh">DB浏览器示例</metadata>
+  <metadata name="title" xml:lang="zh-TW">DB流覽器示例</metadata>
+  <metadata name="title" xml:lang="ko">DB 브라우저 데모</metadata>
+
+  <fragment id="dbb-10" type="layout" name="jetspeed-layouts::VelocityOneColumn">
+     <fragment id="dbb-1000" type="portlet" name="dbbrowser::CitiesDatabase">
+      <property layout="TwoColumns" name="row" value="1" />
+      <property layout="TwoColumns" name="column" value="0" />
+     </fragment>
+     <fragment id="dbb-1001" type="portlet" name="dbbrowser::CountriesDatabase">
+      <property layout="TwoColumns" name="row" value="0" />
+      <property layout="TwoColumns" name="column" value="0" />
+     </fragment>
+  </fragment>
+</page>

@@ -1,0 +1,6 @@
+----------------------------------------------------------------
+2010-06-28 01:21:09.703 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.6.1.0 - (938214): instance a816c00e-0129-7c24-bc3d-0000027e56d0 
+on database directory /private/tmp/jetspeed/derby/productiondb   with class loader org.codehaus.classworlds.RealmClassLoader@d18d189
+
+Database Class Loader started - derby.database.classpath=''

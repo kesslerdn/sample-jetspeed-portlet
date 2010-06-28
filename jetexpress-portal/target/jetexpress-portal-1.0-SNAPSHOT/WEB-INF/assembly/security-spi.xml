@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <!-- ************** Security SPI Handlers ************** -->
+  <!-- Security SPI: CommonQueries -->
+
+  <bean id="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLookupManagerFactory" class="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLookupManagerFactory">
+    <meta key="j2:cat" value="default or security" />
+    <property name="mappings">
+     <map>
+       <entry key="default"><ref bean="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLookupManagerDefault"/></entry>
+       <entry key="mysql"><ref bean="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLookupManagerMySql"/></entry>
+     </map>
+   </property>
+  </bean>
+  
+  <bean id="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLookupManagerDefault" class="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLookupManagerDefault" />
+  <bean id="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLookupManagerMySql" class="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLookupManagerMySql" />
+
+  <bean id="org.apache.jetspeed.security.spi.impl.JetspeedSecurityPersistenceManager"
+    class="org.apache.jetspeed.security.spi.impl.JetspeedSecurityPersistenceManager" init-method="init">
+    <meta key="j2:cat" value="default or security" />
+    <constructor-arg index="0">
+      <value>JETSPEED-INF/ojb/security_repository.xml</value>
+    </constructor-arg>
+    <constructor-arg index="1">
+      <ref bean="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLookupManagerFactory"/>
+    </constructor-arg>
+  </bean>
+  
+  <bean id="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" parent="baseTransactionProxy">
+    <meta key="j2:cat" value="default or security" />
+    <property name="proxyInterfaces">
+      <value>
+        org.apache.jetspeed.security.spi.JetspeedPermissionAccessManager,
+        org.apache.jetspeed.security.spi.JetspeedPermissionStorageManager,
+        org.apache.jetspeed.security.spi.JetspeedPrincipalAccessManager,
+        org.apache.jetspeed.security.spi.JetspeedPrincipalAssociationStorageManager,
+        org.apache.jetspeed.security.spi.JetspeedPrincipalStorageManager,
+        org.apache.jetspeed.security.spi.UserPasswordCredentialAccessManager,
+        org.apache.jetspeed.security.spi.UserPasswordCredentialStorageManager,        
+        org.apache.jetspeed.security.spi.SecurityDomainStorageManager,        
+        org.apache.jetspeed.security.spi.SecurityDomainAccessManager,
+        org.apache.jetspeed.security.spi.JetspeedDomainPrincipalAccessManager
+      </value>
+    </property>
+    <property name="target">
+      <ref bean="org.apache.jetspeed.security.spi.impl.JetspeedSecurityPersistenceManager" />
+    </property>
+    <property name="transactionAttributes">
+      <props>
+        <prop key="add*">PROPAGATION_REQUIRED</prop>
+        <prop key="update*">PROPAGATION_REQUIRED</prop>
+        <prop key="grant*">PROPAGATION_REQUIRED</prop>
+        <prop key="remove*">PROPAGATION_REQUIRED</prop>
+        <prop key="revoke*">PROPAGATION_REQUIRED</prop>
+        <prop key="store*">PROPAGATION_REQUIRED</prop>
+        <prop key="getPasswordCredential*">PROPAGATION_REQUIRED</prop>
+        <prop key="*">PROPAGATION_SUPPORTS</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    <meta key="j2:cat" value="dbSecurity" />
+    <meta key="j2:alias" value="org.apache.jetspeed.security.spi.JetspeedPrincipalStorageManager" />
+    <property name="targetBeanName" value="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+  </bean>
+  
+  <bean class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    <meta key="j2:cat" value="dbSecurity" />
+    <meta key="j2:alias" value="org.apache.jetspeed.security.spi.JetspeedPrincipalAssociationStorageManager" />
+    <property name="targetBeanName" value="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+  </bean>
+  
+  <bean class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    <meta key="j2:cat" value="dbSecurity" />
+    <meta key="j2:alias" value="org.apache.jetspeed.security.spi.JetspeedPermissionStorageManager" />
+    <property name="targetBeanName" value="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+  </bean>
+  
+  <bean class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    <meta key="j2:cat" value="dbSecurity" />
+    <meta key="j2:alias" value="org.apache.jetspeed.security.spi.UserPasswordCredentialStorageManager" />
+    <property name="targetBeanName" value="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+  </bean>
+
+  <bean class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    <meta key="j2:cat" value="dbSecurity or ldapSecurity" />
+    <meta key="j2:alias" value="org.apache.jetspeed.security.spi.SecurityDomainStorageManager" />
+    <property name="targetBeanName" value="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+  </bean>
+  
+  <bean class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    <meta key="j2:cat" value="dbSecurity or ldapSecurity" />
+    <meta key="j2:alias" value="org.apache.jetspeed.security.spi.SecurityDomainAccessManager" />
+    <property name="targetBeanName" value="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+  </bean>
+  
+  <bean id="org.apache.jetspeed.security.spi.impl.UserPasswordCredentialManagerImpl"
+    class="org.apache.jetspeed.security.spi.impl.UserPasswordCredentialManagerImpl">
+    <meta key="j2:cat" value="dbSecurity" />
+    <constructor-arg index="0" ref="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+    <constructor-arg index="1" ref="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+    <constructor-arg index="2" ref="org.apache.jetspeed.security.spi.UserPasswordCredentialPolicyManager" />
+  </bean>
+
+  <bean id="org.apache.jetspeed.security.spi.UserPasswordCredentialManager" parent="baseTransactionProxy">
+    <meta key="j2:cat" value="dbSecurity" />
+    <property name="proxyInterfaces">
+      <value>org.apache.jetspeed.security.spi.UserPasswordCredentialManager</value>
+    </property>
+    <property name="target">
+      <ref bean="org.apache.jetspeed.security.spi.impl.UserPasswordCredentialManagerImpl" />
+    </property>
+    <property name="transactionAttributes">
+      <props>
+        <prop key="*">PROPAGATION_REQUIRED</prop>
+      </props>
+    </property>
+  </bean>
+  
+  <bean id="org.apache.jetspeed.security.spi.impl.UserPasswordCredentialPolicyManagerImpl"
+    class="org.apache.jetspeed.security.spi.impl.UserPasswordCredentialPolicyManagerImpl">
+    <meta key="j2:cat" value="default or security" />
+    <constructor-arg index="0" ref="org.apache.jetspeed.security.CredentialPasswordEncoder" />
+    <constructor-arg index="1" ref="org.apache.jetspeed.security.CredentialPasswordValidator" />
+    <constructor-arg index="2">
+      <list>
+        <!-- enforce an invalid preset password value in the persisent store is required to be changed -->
+        <bean class="org.apache.jetspeed.security.spi.impl.ValidatePasswordOnLoadInterceptor" />
+        <!-- ensure preset cleartext passwords in the persistent store  will be encoded on first use -->
+        <bean class="org.apache.jetspeed.security.spi.impl.EncodePasswordOnFirstLoadInterceptor" />
+      </list>
+    </constructor-arg>
+  </bean>
+
+  <bean id="org.apache.jetspeed.security.spi.UserPasswordCredentialPolicyManager" parent="baseTransactionProxy">
+    <meta key="j2:cat" value="default or security" />
+    <property name="proxyInterfaces">
+      <value>org.apache.jetspeed.security.spi.UserPasswordCredentialPolicyManager</value>
+    </property>
+    <property name="target">
+      <ref bean="org.apache.jetspeed.security.spi.impl.UserPasswordCredentialPolicyManagerImpl" />
+    </property>
+    <property name="transactionAttributes">
+      <props>
+        <prop key="authenticate*">PROPAGATION_REQUIRED</prop>
+        <prop key="on*">PROPAGATION_REQUIRED</prop>
+      </props>
+    </property>
+  </bean>
+  
+  <bean id="org.apache.jetspeed.security.CredentialPasswordEncoder"
+    class="org.apache.jetspeed.security.spi.impl.MessageDigestCredentialPasswordEncoder">
+    <meta key="j2:cat" value="default or security" />
+    <constructor-arg index="0">
+      <value>SHA-1</value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="org.apache.jetspeed.security.CredentialPasswordValidator"
+    class="org.apache.jetspeed.security.spi.impl.DefaultCredentialPasswordValidator">
+    <meta key="j2:cat" value="default or security" />
+  </bean>
+
+  <bean id="org.apache.jetspeed.security.spi.AuthorizationProvider"
+    class="org.apache.jetspeed.security.impl.AuthorizationProviderImpl">
+    <meta key="j2:cat" value="default or security or AuthorizationProvider" />
+    <constructor-arg index="0">
+      <ref bean="org.apache.jetspeed.security.impl.RdbmsPolicy" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <value>true</value>
+    </constructor-arg>
+  </bean>
+
+</beans>

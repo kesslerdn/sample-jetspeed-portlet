@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<folder
+    xmlns="http://portals.apache.org/jetspeed"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://portals.apache.org/jetspeed http://portals.apache.org/jetspeed-2/2.2/schemas/folder-metadata.xsd">
+  <title>[USER] Root Folder</title>  
+  <short-title>[USER] Root</short-title>  
+  <metadata name="title" xml:lang="fr">[USER] Répertoire racine</metadata>
+  <metadata name="title" xml:lang="ja">[ユーザー] ルートフォルダ</metadata>
+  <metadata name="title" xml:lang="es">Carpeta raiz [USUARIO]</metadata>
+  <metadata name="title" xml:lang="zh">[用户] 根文件夹</metadata>
+  <metadata name="title" xml:lang="zh-TW">[用戶] 根檔夾</metadata>
+  <metadata name="title" xml:lang="ko">[사용자] 루트 폴더</metadata>
+  <metadata name="short-title" xml:lang="fr">[USER] Racine</metadata>
+  <metadata name="short-title" xml:lang="ja">[ユーザー] ルート</metadata>
+  <metadata name="short-title" xml:lang="es">Raiz [USUARIO]</metadata>
+  <metadata name="short-title" xml:lang="zh">[用户] 根</metadata>
+  <metadata name="short-title" xml:lang="zh-TW">[用戶] 根</metadata>
+  <metadata name="short-title" xml:lang="ko">[사용자] 루트</metadata>
+
+  <document-order>Google.link</document-order>
+  <document-order>Jetspeed2.link</document-order>
+  <document-order>p003.psml</document-order>
+  <document-order>default-page.psml</document-order>  
+  <document-order>p001.psml</document-order>
+  <document-order>p002.psml</document-order>
+  <document-order>p004.psml</document-order>
+  <document-order>localeselector.psml</document-order>
+  <document-order>jsf-demo.psml</document-order>
+  <document-order>struts-demo.psml</document-order>
+  <document-order>third-party</document-order>
+  <document-order>non-java</document-order>
+  <document-order>Administrative</document-order>
+ 
+  <menu name="page-navigations">
+    <separator>
+      <text>[USER] Top Pages</text>
+      <metadata name="text" xml:lang="fr">[USER] Page haut</metadata>
+      <metadata name="text" xml:lang="ja">[ユーザー] トップページ</metadata>
+      <metadata name="text" xml:lang="es">Páginas populates [USUARIO]</metadata>
+      <metadata name="text" xml:lang="zh">[用户] 顶层页</metadata>
+      <metadata name="text" xml:lang="zh-TW">[用戶] 頂層頁</metadata>
+      <metadata name="text" xml:lang="ko">[사용자] 최상위 페이지</metadata>
+    </separator>
+    <options regexp="true" profile="menu">/top-links/*.*</options>
+    <menu regexp="true" profile="menu" options="/top-links/more/*.*">
+      <title>[USER] More Pages</title>
+      <metadata name="title" xml:lang="ja">[ユーザー] 追加ページ</metadata>
+      <metadata name="title" xml:lang="es">Más páginas [USUARIO]</metadata>
+      <metadata name="title" xml:lang="zh">[用户] 追加页</metadata>
+      <metadata name="title" xml:lang="zh-TW">[用戶] 追加頁</metadata>
+      <metadata name="title" xml:lang="ko">[사용자] 추가 페이지</metadata>
+    </menu>
+    <separator>
+      <text>Profiled Pages</text>
+      <metadata name="text" xml:lang="ja">プロファイルページ</metadata>
+      <metadata name="text" xml:lang="es">Páginas de perfil</metadata>
+      <metadata name="text" xml:lang="zh">Profiled 页</metadata>
+      <metadata name="text" xml:lang="zh-TW">Profiled 頁</metadata>
+      <metadata name="text" xml:lang="ko">프로파일 페이지</metadata>
+    </separator>
+    <options regexp="true">/p[0-9][0-9][0-9].psml</options>
+    <separator>
+      <text>Non Java Pages</text>
+      <metadata name="text" xml:lang="ja">Non-Javaページ</metadata>
+      <metadata name="text" xml:lang="es">Portlets sin Java</metadata>
+      <metadata name="text" xml:lang="zh">非Java Portlets页</metadata>
+      <metadata name="text" xml:lang="zh-TW">非Java Portlets頁</metadata>
+      <metadata name="text" xml:lang="ko">Non-Java 페이지</metadata>
+    </separator>
+    <options>/non-java</options>
+  </menu>
+  
+  <menu name="space-navigations" regexp="true" options="+/*/,+/*.psml" depth="-1"/>
+  <menu name="space-links" regexp="true" options="+/*.link"/>
+  
+  <security-constraints>
+    <owner>user</owner>
+    <security-constraints-ref>manager</security-constraints-ref>
+  </security-constraints>
+</folder>

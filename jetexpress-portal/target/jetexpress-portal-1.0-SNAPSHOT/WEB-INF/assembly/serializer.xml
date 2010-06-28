@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <bean id="org.apache.jetspeed.serializer.JetspeedSerializer" name="JetspeedSerializer"
+    class="org.apache.jetspeed.serializer.JetspeedSerializerImpl">
+    <meta key="j2:cat" value="default or serializer" />
+    <constructor-arg index="0">
+      <list>
+        <bean class="org.apache.jetspeed.serializer.JetspeedCapabilitiesSerializer">
+          <constructor-arg ref="org.apache.jetspeed.capabilities.Capabilities" />
+        </bean>
+        <bean class="org.apache.jetspeed.serializer.JetspeedSecuritySerializer">
+          <constructor-arg index="0" ref="org.apache.jetspeed.security.spi.JetspeedPrincipalManagerProvider" />
+          <constructor-arg index="1" ref="org.apache.jetspeed.security.GroupManager" />
+          <constructor-arg index="2" ref="org.apache.jetspeed.security.RoleManager" />
+          <constructor-arg index="3" ref="org.apache.jetspeed.security.UserManager" />
+          <constructor-arg index="4" ref="org.apache.jetspeed.security.spi.CredentialPasswordEncoder" />
+          <constructor-arg index="5" ref="org.apache.jetspeed.security.PermissionManager" />
+          <constructor-arg index="6" ref="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+          <constructor-arg index="7" ref="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+        </bean>
+        <bean class="org.apache.jetspeed.serializer.JetspeedProfilerSerializer">
+          <constructor-arg index="0" ref="org.apache.jetspeed.profiler.Profiler" />
+          <constructor-arg index="1" ref="org.apache.jetspeed.security.UserManager" />
+        </bean>
+        <bean class="org.apache.jetspeed.serializer.JetspeedRegistrySerializer">
+          <constructor-arg index="0" ref="org.apache.jetspeed.components.portletregistry.PortletRegistry" />
+          <constructor-arg index="1" ref="org.apache.jetspeed.components.portletpreferences.PortletPreferencesProvider" />
+          <constructor-arg index="2" ref="org.apache.jetspeed.search.SearchEngine" />
+        </bean>
+        <bean class="org.apache.jetspeed.serializer.JetspeedSSOSerializer">
+          <constructor-arg index="0" ref="org.apache.jetspeed.sso.SSOManager" />
+          <constructor-arg index="1" ref="org.apache.jetspeed.security.GroupManager" />
+          <constructor-arg index="2" ref="org.apache.jetspeed.security.UserManager" />
+        </bean>
+        <!-- 
+          <bean class="org.apache.jetspeed.serializer.JetspeedUserTemplateSerializer">
+          <constructor-arg index="0" ref="org.apache.jetspeed.page.PageManager" />
+          <constructor-arg index="1" ref="org.apache.jetspeed.security.UserManager" />
+          <constructor-arg index="2" ref="portal_configuration" />          
+          </bean>
+        -->
+      </list>
+    </constructor-arg>
+    <constructor-arg index="1">
+      <map>
+        <entry key="process_capabilities">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <entry key="process_users">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <!-- process_permissions depends on process_users being enabled, otherwise ignored -->
+        <entry key="process_permissions">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <entry key="process_profiler">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <entry key="process_entities">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <entry key="process_preferences">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <entry key="process_user_preferences">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <entry key="process_user_templates">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <entry key="process_sso">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <!--  following serializers are not yet implemented/available -->
+        <entry key="process_portal_preferences">
+          <value type="java.lang.Boolean">false</value>
+        </entry>
+        <!--  following settings are for export -->
+        <entry key="overwrite_existing">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <entry key="backup_before_process">
+          <value type="java.lang.Boolean">true</value>
+        </entry>
+        <entry key="export_indentation" value="  " />
+      </map>
+    </constructor-arg>
+  </bean>
+
+</beans>

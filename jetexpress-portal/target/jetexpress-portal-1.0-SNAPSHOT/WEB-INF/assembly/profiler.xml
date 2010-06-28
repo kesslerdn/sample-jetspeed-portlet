@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <!-- Profiler -->
+  <bean id="profilerImpl" class="org.apache.jetspeed.profiler.impl.JetspeedProfilerImpl" init-method="init">
+    <meta key="j2:cat" value="default or profiler" />
+    <constructor-arg index="0">
+      <value>JETSPEED-INF/ojb/profiler_repository.xml</value>
+    </constructor-arg>
+    <constructor-arg index="1">
+      <value>j2</value>
+    </constructor-arg>
+    <constructor-arg index="2">
+      <ref bean="ProfileResolvers" />
+    </constructor-arg>
+    <!--  pass reference to profiling rule implementations -->
+    <constructor-arg index="3">
+      <map>
+        <entry key="locator">
+          <value>ProfileLocator</value>
+        </entry>
+        <entry key="principal">
+          <value>PrincipalRule</value>
+        </entry>
+
+        <entry key="standard">
+          <value>StandardProfilingRule</value>
+        </entry>
+        <entry key="fallback">
+          <value>RoleFallbackProfilingRule</value>
+        </entry>
+      </map>
+    </constructor-arg>
+    <!--  pass reference to rule criterion -->
+    <constructor-arg index="4">
+      <value>RuleCriterion</value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="org.apache.jetspeed.profiler.Profiler" name="profiler" parent="baseTransactionProxy">
+    <meta key="j2:cat" value="default or profiler" />
+    <property name="proxyInterfaces">
+      <value>org.apache.jetspeed.profiler.Profiler</value>
+    </property>
+    <property name="target">
+      <ref bean="profilerImpl" />
+    </property>
+    <property name="transactionAttributes">
+      <props>
+        <prop key="setRuleForPrincipal">
+          PROPAGATION_REQUIRED,-org.apache.jetspeed.components.profiler.ProfilerException
+        </prop>
+        <prop key="store*">PROPAGATION_REQUIRED,-org.apache.jetspeed.components.profiler.ProfilerException</prop>
+        <prop key="delete*">PROPAGATION_REQUIRED,-org.apache.jetspeed.components.profiler.ProfilerException</prop>
+        <prop key="*">PROPAGATION_SUPPORTS</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="ProfileResolvers" class="org.apache.jetspeed.profiler.rules.impl.ProfileResolversImpl">
+    <meta key="j2:cat" value="default or profiler" />
+    <constructor-arg index="0">
+      <map>
+        <entry key="request">
+          <ref bean="StandardResolver" />
+        </entry>
+        <entry key="session">
+          <ref bean="SessionResolver" />
+        </entry>
+        <entry key="request.session">
+          <ref bean="RequestSessionResolver" />
+        </entry>
+        <entry key="path">
+          <ref bean="PathResolver" />
+        </entry>
+        <entry key="path.session">
+          <ref bean="PathSessionResolver" />
+        </entry>
+        <entry key="hard.coded">
+          <ref bean="HardCodedResolver" />
+        </entry>
+        <entry key="user">
+          <ref bean="UserCriterionResolver" />
+        </entry>
+        <entry key="role">
+          <ref bean="RoleCriterionResolver" />
+        </entry>
+        <entry key="rolecombo">
+          <ref bean="RoleComboCriterionResolver" />
+        </entry>
+        <entry key="group">
+          <ref bean="GroupCriterionResolver" />
+        </entry>
+        <entry key="mediatype">
+          <ref bean="MediatypeCriterionResolver" />
+        </entry>
+        <entry key="language">
+          <ref bean="LanguageCriterionResolver" />
+        </entry>
+        <entry key="country">
+          <ref bean="CountryCriterionResolver" />
+        </entry>
+        <entry key="group.role.user">
+          <ref bean="GroupRoleUserCriterionResolver" />
+        </entry>
+        <entry key="user.attribute">
+          <ref bean="UserAttributeResolver" />
+        </entry>
+        <entry key="navigation">
+          <ref bean="NavigationCriterionResolver" />
+        </entry>
+        <entry key="user.agent">
+          <ref bean="UserAgentCriterionResolver" />
+        </entry>
+        <entry key="ip">
+          <ref bean="IPCriterionResolver" />
+        </entry>
+        <entry key="hostname">
+          <ref bean="HostnameCriterionResolver" />
+        </entry>
+        <entry key="domain">
+          <ref bean="DomainCriterionResolver" />
+        </entry>
+      </map>
+    </constructor-arg>
+  </bean>
+
+  <bean id='StandardResolver' class='org.apache.jetspeed.profiler.rules.impl.StandardResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='SessionResolver' class='org.apache.jetspeed.profiler.rules.impl.SessionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='RequestSessionResolver' class='org.apache.jetspeed.profiler.rules.impl.RequestSessionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='PathResolver' class='org.apache.jetspeed.profiler.rules.impl.PathResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='PathSessionResolver' class='org.apache.jetspeed.profiler.rules.impl.PathSessionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='HardCodedResolver' class='org.apache.jetspeed.profiler.rules.impl.HardCodedResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='UserCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.UserCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='RoleCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.RoleCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='PrincipalCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.PrincipalCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='RoleComboCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.RoleComboCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='GroupCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.GroupCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='MediatypeCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.MediatypeCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='LanguageCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.LanguageCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='CountryCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.CountryCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='GroupRoleUserCriterionResolver'
+    class='org.apache.jetspeed.profiler.rules.impl.GroupRoleUserCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='UserAttributeResolver' class='org.apache.jetspeed.profiler.rules.impl.UserAttributeResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='NavigationCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.NavigationCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='UserAgentCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.UserAgentCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='IPCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.IPCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+  <bean id='HostnameCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.HostnameCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+    <!--  use the dot prefix, for ex: "accounting.xyz.com" returns "accounting" -->
+    <constructor-arg type="boolean" index="0">
+      <value>false</value>
+    </constructor-arg>
+    <!--
+        use hostname mapping rules, for ex: ^.*[.]([^.]+[.][^.]+)$ -> $1
+        maps hostnames like 'www.domain.com' and 'www.secure.domain.com' to
+        domain 'domain.com'; note: patterns and replacements use '&#36;' for '$'
+    -->
+    <!--
+    <constructor-arg index="0">
+      <list>
+        <bean class="org.apache.jetspeed.profiler.rules.impl.HostnameCriterionResolver$Rule">
+          <constructor-arg index="0" value="^(.*[.])?([^.]+[.][^.]+)&#36;" />
+          <constructor-arg index="1" value="&#36;2" />
+        </bean>
+      </list>
+    </constructor-arg>
+    -->
+  </bean>
+  <bean id='DomainCriterionResolver' class='org.apache.jetspeed.profiler.rules.impl.DomainCriterionResolver'>
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+
+  <!-- Profiling Rules -->
+
+  <!-- Standard Profiler -->
+  <bean id="StandardProfilingRule" class="org.apache.jetspeed.profiler.rules.impl.StandardProfilingRule"
+    scope="prototype">
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+
+  <!-- Fallback Profiler -->
+  <bean id="RoleFallbackProfilingRule" class="org.apache.jetspeed.profiler.rules.impl.RoleFallbackProfilingRule"
+    scope="prototype">
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+
+  <!-- Locator -->
+  <bean id="ProfileLocator" class="org.apache.jetspeed.profiler.impl.JetspeedProfileLocator" scope="prototype">
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+
+  <!-- Principal Rule -->
+  <bean id="PrincipalRule" class="org.apache.jetspeed.profiler.rules.impl.PrincipalRuleImpl" scope="prototype">
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+
+
+  <!-- Rule Criterion -->
+  <bean id="RuleCriterion" class="org.apache.jetspeed.profiler.rules.impl.RuleCriterionImpl" scope="prototype">
+    <meta key="j2:cat" value="default or profiler" />
+  </bean>
+
+</beans>

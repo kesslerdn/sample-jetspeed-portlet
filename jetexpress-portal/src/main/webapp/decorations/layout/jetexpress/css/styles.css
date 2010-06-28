@@ -1,0 +1,572 @@
+/*
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.aIpache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+@import url("../../css/portal-standard.css");
+
+
+* { margin:0; padding:0; }
+
+body, div, span, a, form, li, ul, ol, input, select, textarea, button, pre, blockquote, label, h1, h2, h3, h4, td, tr, th, tbody, table, p, iframe, img  {
+ padding:0px;margin:0px;
+ white-space:normal;
+ font-weight:normal;
+ font-family: Tahoma, Verdana, Helvetica, Arial, sans-serif;
+ voice-family: "\"}\"";
+ voice-family: inherit;
+ font-size:7pt;
+}
+
+body {
+    background: #fff;;
+}
+
+textarea, button, select, form {
+ padding:1px;
+}
+
+p {
+ margin-top:4px;
+ margin-bottom:4px;
+}
+
+h2 {
+ margin-bottom:6px;
+ color:#12293f;
+ font-size:9pt;
+ font-weight:bold;
+}
+
+h3 {
+ margin-bottom:4px;
+ text-decoration:underline;
+}
+
+/** 
+  This white-space setting is VERY important as it keeps content from "spilling"
+  outside of portlets.
+  */
+
+td,
+th
+{
+  white-space: normal;
+}
+
+th
+{
+  font-size: 11px;
+}
+
+
+
+body.layout-jetspeed
+{
+    margin: 0;
+    padding: 0;
+}
+
+
+.Link
+{
+}
+
+.LinkFolder
+{
+}
+
+.LinkPage
+{
+}
+
+/* applied the sliding doors technique
+ http://www.alistapart.com/articles/slidingdoors/ */
+
+
+.layout-jetspeed .LTabLeftLow,
+.layout-jetspeed .LTabLow,
+.layout-jetspeed .LTabRightLow,
+.layout-jetspeed .LTabLeft,
+.layout-jetspeed .LTab,
+.layout-jetspeed .LTabRight
+{white-space: nowrap;
+    vertical-align: middle;
+}
+
+/*
+background-image: url(../images/documenttabs.png); background-repeat: no-repeat;
+background-position: 0px -30px
+*/
+
+.layout-jetspeed .LTab{background-repeat: repeat-x}
+.layout-jetspeed td.LTab{font-weight: bold;}
+/*
+.layout-jetspeed .LTabLeftLow{background-position: 5px -30px}
+.layout-jetspeed .LTabRightLow{background-position: -5px -30px}
+.layout-jetspeed .LTabLeft{background-position: 5px -30px}
+.layout-jetspeed .LTabRight{background-position: -5px -30px}
+*/
+
+/*
+.layout-jetspeed .LTabLeftLow{background-position: 0px -30px}
+.layout-jetspeed .LTabLow{background-position: 0px -30px}
+.layout-jetspeed .LTabRightLow{background-position: 5px 5px}
+.layout-jetspeed .LTabLeft{background-position: 5px 5px}
+.layout-jetspeed .LTab{background-position: 0px -30px}
+.layout-jetspeed .LTabRight{background-position: 5px 5px}
+*/
+
+/* Tab hyperlink styling */
+.layout-jetspeed .LTabLow A:link, 
+.layout-jetspeed .LTabLow A:visited,
+.layout-jetspeed .LTabLow A:hover, 
+.layout-jetspeed .LTabLow A:active
+{
+    text-decoration: none;
+    font-size: 11px;
+}
+
+.layout-jetspeed .LTabLeftLow
+{
+    width: 5px;
+    padding-left: 9px;
+    padding-right: 0px;
+}
+
+.layout-jetspeed .LTabLow
+{
+    height:25px;    
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.layout-jetspeed .LTabRightLow
+{
+    width: 0px;
+    padding-left: 0px;
+    padding-right: 9px;
+}
+
+.layout-jetspeed .LTabLeft
+{
+    width: 5px;
+    padding-left: 9px;
+    padding-right: 0px;
+}
+
+.layout-jetspeed .LTab
+{
+    height:30px;    
+    padding-left: 0px;
+    padding-right: 0px;
+}
+ 
+.layout-jetspeed .LTabRight
+{
+    width:10px;
+    padding-left: 0px;
+    padding-right: 9px;
+}
+
+.layout-jetspeed .menu {
+    background:url(../images/blue_gradient.gif) #05549c;
+    padding:1px;
+    border-top:1px solid #033563;
+}
+
+.layout-jetspeed .menu a {
+   color:#ced7dc;
+   text-decoration:none;
+}
+
+.layout-jetspeed .menu a:hover {
+   color:#f5f7f8;
+   text-decoration:underline;
+}
+
+.layout-jetspeed .tabs {
+   list-style-type:none;
+   list-style-position:inside;
+   display:table;
+}
+
+.layout-jetspeed .tabs li {
+   float:left;
+   display:inline;
+   border-collapse:collapse;
+   margin-right:10px;
+   padding: 3px;
+   color:#fff;
+}
+
+.layout-jetspeed #banner h1 {
+    font-size: 1.25em;
+    margin: 0;
+}
+
+.layout-jetspeed #login {
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: x-small;
+    font-weight: bold;
+}
+
+/* .layout-jetspeed #breadcrumbs located in portal.css and desktop.css */
+
+.layout-jetspeed #breadcrumbs a {
+    text-decoration: none;
+}
+
+.layout-jetspeed #navcolumn {
+    font-size: x-small;
+    margin-top: 15px;
+}
+
+.layout-jetspeed #navcolumn .toolgroup{background: none}
+.layout-jetspeed #navcolumn .toolgroup .label{background: none; border-bottom: 1px solid #afafaf; color: #303031}
+.layout-jetspeed #navcolumn .toolgroup .body {background: none; border: none;}
+.layout-jetspeed #navcolumn{background: none;}
+
+.layout-jetspeed #navcolumn p {
+    background-image: none;
+
+}
+
+.layout-jetspeed #navcolumn a{
+color: #012d46;
+}
+
+
+.layout-jetspeed #main {
+
+}
+
+.layout-jetspeed #leftcol 
+{
+    width: 15%;
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: x-small;
+}
+
+.layout-jetspeed #leftcol a {
+    text-decoration: none;
+}
+
+.layout-jetspeed #leftcol a:active, .layout-jetspeed #leftcol a:hover {
+    color: #000000 !important;
+    text-decoration: underline;
+}
+
+.layout-jetspeed .toolgroup {
+    background: #efefef;
+    margin-bottom: 6px;
+    margin-top: 6px;
+}
+
+.layout-jetspeed .toolgroup .label {
+    color: white;
+    padding: 1px;
+    font-weight: bold;
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: 7pt;
+}
+
+.layout-jetspeed .toolgroup .body {
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    padding: 4px 4px 4px 0;
+}
+
+.layout-jetspeed .toolgroup .body div {
+    padding-bottom: .2em;
+    padding-left: 0;
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: 7pt;
+}
+
+.layout-jetspeed .toolgroup .body div div {
+    padding-left: .5em;
+}
+
+.layout-jetspeed .toolgroup .pagetitle{
+    font-weight: bold;
+    padding-left: .5em;
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: x-small;
+}
+
+.layout-jetspeed .toolgroup .body div p {
+    margin-top: .0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-top: .0;
+    margin-bottom: .0;
+}
+
+
+
+#portal-page-actions A img
+{
+   display: inline;   
+}
+
+#portal-page-actions
+{
+   display: inline;
+   position: absolute;
+   right: 5px;
+   top: 68px;
+}
+
+.FolderList
+{
+   display: inline;
+}
+
+.layout-jetspeed .layout-edit-bar
+{
+  width: 100%;
+  padding-top: 5px;
+  font-size: 8pt;
+  color: blue;
+  overflow:hidden;
+  clip:auto;
+}
+
+.layout-jetspeed .layout-edit-bar label, 
+.layout-jetspeed .layout-edit-bar input, 
+.layout-jetspeed .layout-edit-bar select 
+{
+  font-size: 11px;
+  color: #000;
+}
+
+.layout-jetspeed .layout-edit-bar input
+{
+  font-size: 7pt;
+}
+
+.layout-jetspeed .layout-edit-bar-left
+{
+  display:inline;
+  float:left;
+}
+
+.layout-jetspeed .layout-edit-bar-right
+{
+  display:inline;
+  float:right;
+  padding-right: 5px;
+}
+
+.layout-jetspeed .portlet-edit-bar select
+{
+  font-size: 8pt;
+  color: blue;
+}
+
+
+
+/* New theme starts here */
+.layout-jetspeed
+{
+  font-family: Verdana,sans-serif;
+  font-size: 7pt; 
+}
+
+.layout-jetspeed td{
+ font-size:7pt;
+ font-family: Verdana,sans-serif;
+ vertical-align: top;
+}
+
+.layout-jetspeed .header {
+	width:100%;
+	background:#000;
+	border-bottom:4px solid #eef0f0;
+	margin:0px;
+}
+
+.layout-jetspeed .logo {
+text-indent: -9999px;   
+background: url("../images/jetexpress-logo.gif") no-repeat;
+background-position: 8px 8px;
+height:35px;
+padding:3px;
+}
+
+/* Logout */
+/* ================================================ */
+.layout-jetspeed .layout-jetspeed-logout {
+position: absolute; 
+right: 5px; top: 5px; 
+z-index: 10;  
+color: #fff;
+padding:2px;
+text-decoration:none;
+}
+
+.layout-jetspeed .layout-jetspeed-logout:hover{
+text-decoration: underline;
+}
+
+.layout-jetspeed .default-tabs{padding-top: 75px; margin-top: 0px; margin-bottom: 0px;}
+.layout-jetspeed .default-tabs li{display: block; float: left; margin: 0px;}
+.layout-jetspeed .default-tabs a{
+font-weight: normal; 
+white-space: nowrap; 
+display: block; 
+float: left; 
+width: auto;
+background: url("../images/documenttabs.png") repeat-x; 
+margin-right: 2px;
+color: #dddddd;
+padding: 8px;
+text-decoration: none;
+font-size: 11px;
+padding-left: 15px; 
+padding-right: 15px;
+}
+
+.layout-jetspeed .default-tabs .selected a{background-position: 0px -30px; color: white}
+.layout-jetspeed .default-tabs .selected a:hover{background-position: 0px -30px;}
+.layout-jetspeed .default-tabs .selected a:active{background-position: 0px -30px}
+
+.layout-jetspeed .default-tabs .not-selected a{background-position: 0px -1px; color: #f2f2f2}
+.layout-jetspeed .default-tabs .not-selected a:hover{background-position: 0px -90px; color: white}
+.layout-jetspeed .default-tabs .not-selected a:active{background-position: 0px -90px}
+
+.layout-jetspeed-logout{float: right; display: block;}
+
+.layout-jetspeed .portal-page-actions{ 
+margin-bottom: 0px; 
+float: right;
+
+}
+.layout-jetspeed .portal-page-actions li{display: block; float: left; margin-left: 10px;}
+.layout-jetspeed .portal-page-actions a{
+background-image: none;
+color: white;
+text-decoration: underline;
+}
+.layout-jetspeed .portal-page-actions a span{}
+
+.layout-jetspeed .layout-edit-bar {
+background: #f2f2f2 url("../images/layout-bar-shade.png") repeat-x left bottom;
+padding-bottom: 15px;
+width: 100%;
+clear:both;
+}
+.layout-jetspeed .layout-edit-bar tr td{padding: 4px; vertical-align: top}
+.layout-jetspeed .layout-portlet-move{float: left;}
+.layout-jetspeed .layout-portlet-move li{float: left; display: block}
+.layout-jetspeed .layout-portlet-move a{
+display: block;
+float: left;
+width: 16px; 
+height: 16px;
+background-repeat: no-repeat;
+background-position: 0px 0px;
+margin-left: 2px;
+}
+.layout-jetspeed .layout-portlet-move a:hover{background-position: 0px -16px}
+.layout-jetspeed .layout-portlet-move a span{display: none}
+
+.layout-jetspeed .layout-portlet-move a.move-portlet-up{background-image: url("../images/movePortletUp.gif");}
+.layout-jetspeed .layout-portlet-move a.move-portlet-down{background-image: url("../images/movePortletDown.gif");}
+.layout-jetspeed .layout-portlet-move a.move-portlet-left{background-image: url("../images/movePortletLeft.gif");}
+.layout-jetspeed .layout-portlet-move a.move-portlet-right{background-image: url("../images/movePortletRight.gif");}
+.layout-jetspeed .layout-portlet-move a.remove-portlet-from-apge{background-image: url("../images/close.gif");}
+
+.layout-jetspeed .folder-title,
+.layout-jetspeed .page-title,
+.layout-jetspeed .layout-title,
+.layout-jetspeed .layout-edit-bar b{font-weight: bold; background: #c2c2c2; color: #666666; padding: 5px; display: block; width: auto; margin-bottom: 5px;}
+
+.layout-jetspeed .layout-edit-bar label{width: 71px; display: block; float: left; text-align: right; padding: 6px; clear: left}
+.layout-jetspeed .layout-edit-bar select{width: 200px;}
+.layout-jetspeed .layout-edit-bar input{margin-bottom: 5px; margin-top: 5px;}
+
+
+.layout-jetspeed .layout-jetspeed-addportlet{padding: 25px; background: #f2f2f2; text-align: center;}
+.layout-jetspeed .layout-jetspeed-addportlet a{
+background: url("../images/addportlet.png") no-repeat; 
+width: 146px; height: 30px;
+padding: 10px 48px 13px 35px;
+background-position: 0px 0px;
+color: white;
+}
+.layout-jetspeed .layout-jetspeed-addportlet a:hover{
+background-position: 0px -39px;
+}
+
+/* Layout configuration inside a portlet */
+
+.layout-jetspeed .portal-layout-cell .portal-layout-cell .layout-edit-bar{
+padding: 0px; 
+background: #f2f2f2 url("../images/portletheadingback.png") repeat-x top left;
+padding-top: 24px;
+padding-bottom: 5px;
+margin-bottom: 10px;
+}
+
+.layout-jetspeed .portal-layout-cell .layout-edit-bar b{padding-right: 0px}
+.layout-jetspeed .portal-layout-cell .layout-edit-bar .layout-title{
+padding: 4px;
+}
+
+.layout-jetspeed .portlet-edit-bar{
+background: url("../images/portlet-layout-bar-back.gif") no-repeat top left; 
+height: 18px;
+margin: 10px;
+margin-bottom: -5px;
+padding: 1px;
+}
+.layout-jetspeed .portlet-edit-bar a{display: block ; float: left; margin-top: 2px;}
+.layout-jetspeed .portlet-edit-bar select{width: 120px;}
+.layout-jetspeed .portlet-edit-bar label{
+float: left; 
+color: white; 
+display: block; 
+margin-top: 2px; 
+padding: 2px;
+font-weight: bold;
+}
+
+.layout-jetspeed .portlet-edit-bar select{background: transparent; border: 1px solid #666666; float: left; color: white; padding: 0px; height: 18px;}
+.layout-jetspeed .portlet-edit-bar select option{color: white; background: #035a8e; padding: 0px;}
+.layout-jetspeed .portal-layout-column{}
+
+.layout-jetspeed .layout-edit-bar fieldset{border: 1px solid white; padding: 5px; margin: 5px;}
+/* override the default styling */
+
+/* --------------------------------- */
+/* PLT.C.4 Sections                  */
+/* --------------------------------- */
+.layout-jetspeed .portlet-section-header {
+    background: #f2f2f2;
+    background-image: none;
+    color: #fff;
+    padding: 5px;
+    margin-right: 0px;
+    margin-left: 0px;
+    clear: both;
+}
+

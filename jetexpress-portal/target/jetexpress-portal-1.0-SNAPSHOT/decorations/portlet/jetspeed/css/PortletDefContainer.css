@@ -1,0 +1,127 @@
+/*
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+.portletSelectorFloatingPane {
+	/* essential css */
+	position: relative;
+	overflow: hidden;		/* dojo says 'visible' with this explanation "so drop shadow is displayed"" */
+                            /* we says 'hidden' cause IE likes to kindly expand div to fit content otherwise */
+	z-index: 5;
+	-moz-box-sizing: border-box;
+	-khtml-box-sizing: border-box;
+	
+	/* styling css */
+	border: 1px solid;
+	border-color: ThreeDHighlight ThreeDShadow ThreeDShadow ThreeDHighlight;
+	background-color: ThreeDFace;
+
+    width: 100%;
+}
+
+.portletSelectorTitleBar {
+	/* essential css */
+	z-index: 2;
+
+	/* styling css */
+	vertical-align: middle;
+	font: small-caption;
+	cursor: default;
+    line-height: 1.4em;
+
+    background: #98FB98;    /* palegreen */ 
+	color: #4682B4;  /* steelblue */
+
+    height: 22px;
+}
+
+.portletSelectorTitleBarIcon {
+    /* essential css */
+    float: left;
+
+    /* styling css */
+    margin-top: 3px;
+    margin-left: 2px;
+    margin-right: 3px;
+    height: 16px;
+	width: 16px;
+    /* height: 22px; */
+    /* vertical-align: middle; */
+}
+
+.portletSelectorTitleText {
+    padding: 2px 4px 2px 2px;
+    float: left;
+    color: #4682B4;  /* steelblue */
+}
+
+.portletSelectorTitleBarMinimizeIcon {
+	background-image: url(../images/desktop/minimize.gif);
+}
+.portletSelectorTitleBarMaximizeIcon {
+	background-image: url(../images/desktop/maximize.gif);
+}
+.portletSelectorTitleBarRestoreIcon {
+	background-image: url(../images/desktop/restore.gif);
+}
+.portletSelectorTitleBarCloseIcon {
+	background-image: url(../images/desktop/close.gif);
+}
+
+.portletSelectorTitleBarControlIcon {
+	vertical-align: middle;
+	height: 22px;
+	width: 22px;
+	float: right;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.portletSelectorFloatingPaneClient {
+	position: relative;
+	z-index: 10;
+	border: 1px solid;
+	border-color: ThreeDShadow ThreeDHighlight ThreeDHighlight ThreeDShadow;
+	margin: 2px;
+	background-color: ThreeDFace;
+	padding: 8px;
+	font-family: Verdana, Helvetica, Garamond, sans-serif;
+	font-size: 12px;
+	overflow: auto;
+}
+
+/* height for resize bar is specified in var resizeBarHeight */
+.portletSelectorFloatingPaneResizebar {
+	z-index: 10;
+	background-color: ThreeDFace;
+    
+    height: 13px;
+}
+.portletSelectorResizeHandle {
+	float: right;
+	position: absolute;
+	right: 2px;
+	bottom: 2px;
+	width: 13px;
+	height: 13px;
+	z-index: 20;
+	cursor: nw-resize;
+	background-image: url(../images/desktop/resizeHandle.gif);
+    background-repeat: no-repeat;
+	line-height: 0px;
+}
+
+

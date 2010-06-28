@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<page id="desktop.psml" hidden="false"
+    xmlns="http://portals.apache.org/jetspeed"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://portals.apache.org/jetspeed http://portals.apache.org/jetspeed-2/2.2/schemas/psml.xsd"> 
+    <title>Desktop</title>
+    <fragment id="jsdesktop-1" type="layout" name="jetspeed-layouts::VelocityTwoColumns">
+        <fragment id="jsdesktop-12" type="portlet" name="j2-admin::LoginPortlet">
+            <property name="row" value="0"></property>
+            <property name="column" value="0"></property>
+            <property name="x" value="114.0"></property>
+            <property name="y" value="215.0"></property>
+            <property name="width" value="137.0"></property>
+            <property name="height" value="68.0"></property>
+            <property name="state" value="detach"></property>
+        </fragment>
+        <fragment id="jsdesktop-3" type="portlet" name="j2-admin::LocaleSelector">
+            <property name="row" value="0"></property>
+            <property name="column" value="1"></property>
+            <property name="width" value="312.0"></property>
+            <property name="height" value="66.0"></property>
+            <property name="state" value="detach"></property>
+            <property name="x" value="72.0"></property>
+            <property name="y" value="861.0"></property>
+        </fragment>
+        <fragment id="jsdesktop-22" type="portlet" name="j2-admin::ForgottenPasswordPortlet">
+            <property name="row" value="1"></property>
+            <property name="column" value="0"></property>
+            <property name="x"  value="425.0"></property>
+            <property name="y"  value="126.0"></property>
+            <property name="state"  value="detach"></property>
+            <property name="width"  value="280.0"></property>
+            <property name="height"  value="114.0"></property>
+        </fragment>
+        <fragment id="jsdesktop-23" type="portlet" name="j2-admin::UserRegistrationPortlet">
+            <property name="row" value="1"></property>
+            <property name="column" value="1"></property>
+            <property name="x"  value="180.0"></property>
+            <property name="y"  value="794.0"></property>
+            <property name="state"  value="detach"></property>
+            <property name="width"  value="341.0"></property>
+            <property name="height"  value="308.0"></property>
+        </fragment>
+        <fragment-reference id="jsdesktop-24-wp-reference" refid="wp-definition">
+            <property name="row" value="2"></property>
+            <property name="column" value="0"></property>
+            <property name="width" value="173.0"></property>
+            <property name="height" value="123.0"></property>
+            <property name="state" value="detach"></property>
+            <property name="x"  value="73.0"></property>
+            <property name="y"  value="384.0"></property>
+        </fragment-reference>
+        <fragment id="jsdesktop-7" type="portlet" name="demo::PickANumberPortlet">
+            <property name="row" value="2"></property>
+            <property name="column" value="1"></property>
+            <property name="width" value="244.0"></property>
+            <property name="height" value="136.0"></property>
+            <property name="state" value="detach"></property>
+            <property name="x"  value="62.0"></property>
+            <property name="y"  value="595.0"></property>
+        </fragment>
+        <fragment id="jsdesktop-16" type="portlet" name="demo::RoleSecurityTest">
+            <property name="row" value="3"></property>
+            <property name="column" value="0"></property>
+            <property name="x" value="257.0"></property>
+            <property name="y" value="237.0"></property>
+            <property name="width" value="289.0"></property>
+            <property name="height" value="167.0"></property>
+            <property name="state" value="detach"></property>
+        </fragment>
+        <fragment id="jsdesktop-17" type="portlet" name="demo::UserInfoTest">
+            <property name="row" value="3"></property>
+            <property name="column" value="1"></property>
+            <property name="x"  value="371.0"></property>
+            <property name="y"  value="528.0"></property>
+            <property name="state"  value="detach"></property>
+            <property name="width"  value="218.0"></property>
+            <property name="height"  value="202.0"></property>
+        </fragment>
+        <fragment id="jsdesktop-18" type="portlet" name="demo::BookmarkPortlet">
+            <property name="row" value="4"></property>
+            <property name="column" value="0"></property>
+            <property name="x"  value="241.0"></property>
+            <property name="y"  value="546.0"></property>
+            <property name="state"  value="detach"></property>
+            <property name="width"  value="215.0"></property>
+            <property name="height"  value="91.0"></property>
+        </fragment>
+        <fragment id="jsdesktop-19" type="portlet" name="j2-admin::DateTimePortlet">
+            <property name="row" value="4"></property>
+            <property name="column" value="1"></property>
+            <property name="width" value="141.0"></property>
+            <property name="height" value="27.0"></property>
+            <property name="x"  value="519.0"></property>
+            <property name="y"  value="786.0"></property>
+            <property name="state"  value="detach"></property>
+        </fragment>
+    </fragment>
+    <security-constraints>
+        <security-constraints-ref>public-view</security-constraints-ref>
+    </security-constraints>    
+</page>

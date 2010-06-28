@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<page id="default-page"
+    xmlns="http://portals.apache.org/jetspeed"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://portals.apache.org/jetspeed http://portals.apache.org/jetspeed-2/2.2/schemas/psml.xsd"> 
+  <title>Welcome to Jetspeed 2</title>
+  <metadata name="title" xml:lang="fr">Bienvenue a Jetspeed</metadata>
+  <metadata name="title" xml:lang="ja">Jetspeed 2 へようこそ</metadata>
+  <metadata name="title" xml:lang="es">¡Bienvenido a Jetspeed 2!</metadata>
+  <metadata name="title" xml:lang="hu">Köszönti a Jetspeed 2!</metadata>
+  <metadata name="title" xml:lang="zh">欢迎来到Jetspeed 2</metadata>
+  <metadata name="title" xml:lang="zh-TW">歡迎來到Jetspeed 2</metadata>
+  <metadata name="title" xml:lang="ko">Jetspeed 2 에 오신 것을 환영합니다</metadata>
+
+  <fragment id="dp-1" type="layout" name="jetspeed-layouts::VelocityTwoColumns">
+    <fragment id="dp-3" type="portlet" name="j2-admin::LocaleSelector">
+      <property layout="TwoColumns" name="row" value="0" />
+      <property layout="TwoColumns" name="column" value="1" />
+    </fragment>                                
+    <fragment id="dp-12" type="portlet" name="j2-admin::LoginPortlet">
+      <property layout="TwoColumns" name="row" value="1" />
+      <property layout="TwoColumns" name="column" value="1" />
+    </fragment>                                
+    <fragment id="dp-22" type="portlet" name="j2-admin::ForgottenPasswordPortlet">
+      <property layout="TwoColumns" name="row" value="2" />
+      <property layout="TwoColumns" name="column" value="1" />
+    </fragment>                                
+    <fragment id="dp-23" type="portlet" name="j2-admin::UserRegistrationPortlet">
+      <property layout="TwoColumns" name="row" value="3" />
+      <property layout="TwoColumns" name="column" value="1" />
+    </fragment>                                    
+    <fragment-reference id="dp-24-wp-reference" refid="wp-definition">
+        <property name="row" value="4"/>
+        <property name="column" value="1"/>
+    </fragment-reference>       
+    <fragment id="dp-7" type="portlet" name="demo::PickANumberPortlet" >
+      <property layout="TwoColumns" name="row" value="0" />
+      <property layout="TwoColumns" name="column" value="0" />
+    </fragment>        
+    <fragment id="dp-16" type="portlet" name="demo::RoleSecurityTest">
+      <property layout="TwoColumns" name="row" value="1" />
+      <property layout="TwoColumns" name="column" value="0" />
+    </fragment>
+    <fragment id="dp-9" type="portlet" name="webcontent::ReverseProxyIFramePortlet" decorator="gray-gradient-noborder">
+      <property layout="TwoColumns" name="row" value="2" />
+      <property layout="TwoColumns" name="column" value="0" />
+    </fragment>
+    <fragment id="dp-10" type="portlet" name="webcontent::IFramePortlet" decorator="gray-gradient-noborder">
+      <property layout="TwoColumns" name="row" value="3" />
+      <property layout="TwoColumns" name="column" value="0" />
+      <preference name="SRC">
+        <value>http://www.apache.org/</value>
+      </preference>
+    </fragment>
+    <fragment id="dp-17" type="portlet" name="demo::UserInfoTest">
+      <property layout="TwoColumns" name="row" value="4" />
+      <property layout="TwoColumns" name="column" value="0" />
+    </fragment>
+    <fragment id="dp-18" type="portlet" name="demo::BookmarkPortlet">
+      <property layout="TwoColumns" name="row" value="5" />
+      <property layout="TwoColumns" name="column" value="0" />
+    </fragment>
+  </fragment>
+
+  <security-constraints>
+    <security-constraints-ref>public-view</security-constraints-ref>
+  </security-constraints>
+</page>

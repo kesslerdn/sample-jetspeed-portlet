@@ -1,0 +1,91 @@
+#*
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#* Add the current layouts configuration values to the context *#
+#defineLayoutObjects()
+#inheritLayoutObjects()
+
+#* Loads our custom macros *#
+#parse($layoutDecoration.getResource("decorator-macros.vm"))
+
+#* Add all template constants to the current context *#
+#defineNavigationConstants()
+#set($pc = $jetspeed.getPortalConfiguration())
+#set($rc = $request.getAttribute("org.apache.jetspeed.request.RequestContext"))
+#set($portalContextPath = $rc.request.getContextPath())
+#set($portalServletPath = $rc.request.getServletPath())
+#set($portalPagePath = $rc.getPortalURL().getPath())
+#if ("$!portalPagePath" == "")
+  #set($portalPagePath = "/")
+#end
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head> 
+#if ($jetspeed.isAjaxCustomizationEnabled())
+<script type="text/javascript" src="#BaseHref()javascript/yui/build/yui/yui-min.js"></script>
+<script language="javascript">
+var JetuiConfiguration = {
+    engine: '$pc.getString("jetui.render.engine")',
+    ajaxTransport: '$pc.getString("jetui.ajax.transport")',
+    dragMode: '$pc.getString("jetui.drag.mode")',
+    portletStyle: '$pc.getString("jetui.style.portlet")',
+    layoutStyle: '$pc.getString("jetui.style.layout")',
+    dragHandleStyle: '$pc.getString("jetui.style.drag.handle")',
+    portalContextPath: "${portalContextPath}",
+    portalServletPath: "${portalServletPath}",
+    portalPagePath: "${portalPagePath}"     
+};
+var JETUI_YUI = {
+  base: "#BaseHref()javascript/yui/build/",
+  timeout: 10000, 
+  debug: true, 
+  useBrowserConsole: true,
+  config: JetuiConfiguration,    
+  modules: {
+    'jetui-portal': { fullpath: "#BaseHref()javascript/jetspeed/jetui/jetui-portal.js" }
+  }
+}; // ({classNamePrefix: 'jet'})
+</script>
+<link rel="stylesheet" type="text/css" href="#BaseHref()jetui/css/portal.css"/>
+#end
+
+#includeHeaderResource()
+
+<meta http-equiv="Content-type" content="#ContentType()" />
+<title>#PageTitle()</title>
+<link rel="shortcut icon" href="#BaseHref()images/jetspeed.jpg" type="image/x-icon" />
+#includeJavaScriptForHead()
+#includeInheritStylesheets()
+#IncludeStylesheets()
+
+</head>
+<body class="#PageBaseCSSClass()">
+<!--  BEGIN: layout/html/jetspeed/decorator.vm -->
+<div id="layout-${rootFragment.id}" class="#PageBaseCSSClass()" >
+#if (!$jetspeed.isAjaxCustomizationEnabled())
+    <!-- Content Table -->
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" id="main">
+        <tr>            
+            <!-- Content Table Data -->
+            <td nowrap="nowrap" valign="top">
+#end          
+                
+                ## $jetspeed.include($jetspeed.currentFragment)
+                
+                <!--  END: layout/html/tigris/decorator.vm -->
+                                

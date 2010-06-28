@@ -1,0 +1,599 @@
+/*
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+@import url("../../css/portal-standard.css");
+
+
+* { margin:0; padding:0; }
+
+body, div, span, a, form, li, ul, ol, input, select, textarea, button, pre, blockquote, label, h1, h2, h3, h4, td, tr, th, tbody, table, p, iframe, img  {
+ padding:0px;margin:0px;
+ white-space:normal;
+ font-weight:normal;
+ font-family: Tahoma, Verdana, Helvetica, Arial, sans-serif;
+ voice-family: "\"}\"";
+ voice-family: inherit;
+ font-size:8pt;
+}
+
+body {
+    background: #fff;;
+}
+
+textarea, button, select, form {
+ padding:1px;
+}
+
+p {
+ margin-top:4px;
+ margin-bottom:4px;
+}
+
+h2 {
+ margin-bottom:6px;
+ color:#12293f;
+ font-size:9pt;
+ font-weight:bold;
+}
+
+h3 {
+ margin-bottom:4px;
+ text-decoration:underline;
+}
+
+/** 
+  This white-space setting is VERY important as it keeps content from "spilling"
+  outside of portlets.
+  */
+
+td,
+th
+{
+  white-space: normal;
+}
+
+th
+{
+  font-size: 11px;
+}
+
+
+
+body.layout-turbo
+{
+    margin: 0;
+    padding: 0;
+}
+
+
+.Link
+{
+}
+
+.LinkFolder
+{
+}
+
+.LinkPage
+{
+}
+
+/* applied the sliding doors technique
+ http://www.alistapart.com/articles/slidingdoors/ */
+
+
+.layout-turbo .LTabLeftLow,
+.layout-turbo .LTabLow,
+.layout-turbo .LTabRightLow,
+.layout-turbo .LTabLeft,
+.layout-turbo .LTab,
+.layout-turbo .LTabRight
+{white-space: nowrap;
+    vertical-align: middle;
+}
+
+/*
+background-image: url(../images/documenttabs.png); background-repeat: no-repeat;
+background-position: 0px -30px
+*/
+
+.layout-turbo .LTab{background-repeat: repeat-x}
+.layout-turbo td.LTab{font-weight: bold;}
+/*
+.layout-turbo .LTabLeftLow{background-position: 5px -30px}
+.layout-turbo .LTabRightLow{background-position: -5px -30px}
+.layout-turbo .LTabLeft{background-position: 5px -30px}
+.layout-turbo .LTabRight{background-position: -5px -30px}
+*/
+
+/*
+.layout-turbo .LTabLeftLow{background-position: 0px -30px}
+.layout-turbo .LTabLow{background-position: 0px -30px}
+.layout-turbo .LTabRightLow{background-position: 5px 5px}
+.layout-turbo .LTabLeft{background-position: 5px 5px}
+.layout-turbo .LTab{background-position: 0px -30px}
+.layout-turbo .LTabRight{background-position: 5px 5px}
+*/
+
+/* Tab hyperlink styling */
+.layout-turbo .LTabLow A:link, 
+.layout-turbo .LTabLow A:visited,
+.layout-turbo .LTabLow A:hover, 
+.layout-turbo .LTabLow A:active
+{
+    text-decoration: none;
+    font-size: 11px;
+}
+
+.layout-turbo .LTabLeftLow
+{
+    width: 5px;
+    padding-left: 9px;
+    padding-right: 0px;
+}
+
+.layout-turbo .LTabLow
+{
+    height:25px;    
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.layout-turbo .LTabRightLow
+{
+    width: 0px;
+    padding-left: 0px;
+    padding-right: 9px;
+}
+
+.layout-turbo .LTabLeft
+{
+    width: 5px;
+    padding-left: 9px;
+    padding-right: 0px;
+}
+
+.layout-turbo .LTab
+{
+    height:30px;    
+    padding-left: 0px;
+    padding-right: 0px;
+}
+ 
+.layout-turbo .LTabRight
+{
+    width:10px;
+    padding-left: 0px;
+    padding-right: 9px;
+}
+
+.layout-turbo .menu {
+	background:url(../images/js-gradient.png) #f0f0f0;	
+	padding:1px;
+    border-top:1px solid #033563;
+}
+
+.layout-turbo .menu a {
+	color:#012d46;
+   text-decoration:none;
+}
+
+.layout-turbo .menu a:hover {
+	color:#012d46;
+   text-decoration:underline;
+}
+
+.layout-turbo .tabs {
+   list-style-type:none;
+   list-style-position:inside;
+   display:table;
+}
+
+.layout-turbo .tabs li {
+   float:left;
+   display:inline;
+   border-collapse:collapse;
+   margin-right:10px;
+   padding: 3px;
+   color:#fff;
+}
+
+.layout-turbo #banner h1 {
+    font-size: 1.25em;
+    margin: 0;
+}
+
+.layout-turbo #login {
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: small;
+    font-weight: bold;
+}
+
+/* .layout-turbo #breadcrumbs located in portal.css and desktop.css */
+
+.layout-turbo #breadcrumbs a {
+    text-decoration: none;
+}
+
+.layout-turbo #navcolumn {
+    font-size: small;
+    margin-top: 15px;
+}
+
+.layout-turbo #navcolumn .toolgroup{background: none}
+.layout-turbo #navcolumn .toolgroup .label{background: none; border-bottom: 1px solid #afafaf; color: #303031}
+.layout-turbo #navcolumn .toolgroup .body {background: none; border: none;}
+.layout-turbo #navcolumn{background: none;}
+
+.layout-turbo #navcolumn p {
+    background-image: none;
+
+}
+
+.layout-turbo #navcolumn a{
+color: #012d46;
+}
+
+
+.layout-turbo #main {
+
+}
+
+.layout-turbo #leftcol 
+{
+    width: 17%;
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: small;
+}
+
+.layout-turbo #leftcol a {
+    text-decoration: none;
+}
+
+.layout-turbo #leftcol a:active, .layout-turbo #leftcol a:hover {
+    color: #000000 !important;
+    text-decoration: underline;
+}
+
+.layout-turbo .toolgroup {
+    background: #efefef;
+    margin-bottom: 6px;
+    margin-top: 6px;
+}
+
+.layout-turbo .toolgroup .label {
+    color: white;
+    padding: 1px;
+    font-weight: bold;
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: 8pt;
+}
+
+.layout-turbo .toolgroup .body {
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    padding: 4px 4px 4px 0;
+}
+
+.layout-turbo .toolgroup .body div {
+    padding-bottom: .2em;
+    padding-left: 0;
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: 8pt;
+}
+
+.layout-turbo .toolgroup .body div div {
+    padding-left: .5em;
+}
+
+.layout-turbo .toolgroup .pagetitle{
+    font-weight: bold;
+    padding-left: .5em;
+    voice-family: "\"}\"";
+    voice-family: inherit;
+    font-size: small;
+}
+
+.layout-turbo .toolgroup .body div p {
+    margin-top: .0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-top: .0;
+    margin-bottom: .0;
+}
+
+
+
+#portal-page-actions A img
+{
+   display: inline;   
+}
+
+#portal-page-actions
+{
+   display: inline;
+   position: absolute;
+   right: 5px;
+   top: 68px;
+}
+
+.FolderList
+{
+   display: inline;
+}
+
+.layout-turbo .layout-edit-bar
+{
+  width: 100%;
+  padding-top: 5px;
+  font-size: 8pt;
+  color: blue;
+  overflow:hidden;
+  clip:auto;
+}
+
+.layout-turbo .layout-edit-bar label, 
+.layout-turbo .layout-edit-bar input, 
+.layout-turbo .layout-edit-bar select 
+{
+  font-size: 11px;
+  color: #000;
+}
+
+.layout-turbo .layout-edit-bar input
+{
+  font-size: 8pt;
+}
+
+.layout-turbo .layout-edit-bar-left
+{
+  display:inline;
+  float:left;
+}
+
+.layout-turbo .layout-edit-bar-right
+{
+  display:inline;
+  float:right;
+  padding-right: 5px;
+}
+
+.layout-turbo .portlet-edit-bar select
+{
+  font-size: 8pt;
+  color: blue;
+}
+
+
+
+/* New theme starts here */
+.layout-turbo
+{
+  font-family: Verdana,sans-serif;
+  font-size: 8pt; 
+}
+
+.layout-turbo td{
+ font-size:8pt;
+ font-family: Verdana,sans-serif;
+ vertical-align: top;
+}
+
+.layout-turbo .header {
+	width:100%;
+	background:#193b53;
+	border-bottom:4px solid #eef0f0;
+	margin:0px;
+}
+
+.layout-turbo .logo {
+text-indent: -9999px;   
+background: url("../images/jetspeedlogo-flame.png") no-repeat;
+background-position: 0px 0px;
+height:35px;
+padding:3px;
+}
+
+/* Logout */
+/* ================================================ */
+.layout-turbo .layout-turbo-logout {
+position: absolute; 
+right: 5px; top: 5px; 
+z-index: 10;  
+color: #fff;
+padding:2px;
+text-decoration:none;
+}
+
+.layout-turbo .layout-search {
+position: absolute; 
+right: 22px; top: 18px; 
+color: #000;
+padding:2px;
+text-decoration:none;
+}
+
+.layout-turbo .layout-search2 {
+position: absolute; 
+right: 3px; top: 21px; 
+}
+
+.layout-turbo .layout-horizontal-menu {
+position:absolute;
+display:none;
+left:300px;
+top:10px;
+}
+
+.layout-turbo .layout-statusarea {
+position: absolute; 
+right: 2px; top: 10px; 
+color: #fff;
+padding:2px;
+text-decoration:none;
+font-size:8pt;
+}
+.layyout-turbo .layout-statusarea A:visited,
+.layout-turbo .layout-statusarea A {
+color: #fff;
+font-size:8pt;
+}
+
+
+.layout-turbo .layout-turbo-logout:hover{
+text-decoration: underline;
+}
+
+.layout-jetspeed .tooltext { font-size: 8pt; }
+.layout-turbo .navmenu ul { margin: 0 0 0 3px; padding: 2px; }
+.layout-turbo .navmenu li { margin: 0 0 0 3px; padding: 2px; }
+.layout-turbo .navmenu li.leaf { margin: 0 0 0 3px; padding: 2px; list-style-type: none; list-style-image: none; }
+.layout-turbo .navmenu li.closed { cursor: pointer; list-style-image: url(../../images/bullet-closed.png); }
+.layout-turbo .navmenu li.expanded { cursor: default; list-style-image: url(../../images/bullet-expanded.png); }
+.layout-turbo .navmenu li li { }
+.layout-turbo .navmenu li.closed ul { display: none; }
+
+.layout-turbo .default-tabs{margin: 1px; padding: 0px; }
+.layout-turbo .default-tabs ul{display: block; float: left;}
+.layout-turbo .default-tabs li{display: block; float: left; margin: 2px; padding: 0px; color: #05549c; border: none; }
+.layout-turbo .default-tabs a{ font-weight: normal;  white-space: nowrap;  display: block;  float: left;  width: auto; margin: 0px; padding: 4px 2px; text-decoration: none; font-size: 10px; }
+.layout-turbo .default-tabs .selected a{ color: #05549c; text-decoration: none; font-weight: bold; }
+.layout-turbo .default-tabs .selected a:hover{ color: #05549c; text-decoration: underline }
+.layout-turbo .default-tabs .not-selected a{ color: #05549c; text-decoration: none }
+.layout-turbo .default-tabs .not-selected a:hover{color: #05549c; text-decoration: underline }
+
+.layout-turbo-logout{float: right; display: block;}
+
+.layout-turbo .portal-page-actions{ 
+margin-bottom: 0px; 
+float: right;
+
+}
+.layout-turbo .portal-page-actions li{display: block; float: left; margin-left: 10px;}
+.layout-turbo .portal-page-actions a{
+background-image: none;
+color: white;
+text-decoration: underline;
+}
+.layout-turbo .portal-page-actions a span{}
+
+.layout-turbo .layout-edit-bar {
+background: #f2f2f2 url("../images/layout-bar-shade.png") repeat-x left bottom;
+padding-bottom: 15px;
+width: 100%;
+clear:both;
+}
+.layout-turbo .layout-edit-bar tr td{padding: 4px; vertical-align: top}
+.layout-turbo .layout-portlet-move{float: left;}
+.layout-turbo .layout-portlet-move li{float: left; display: block}
+.layout-turbo .layout-portlet-move a{
+display: block;
+float: left;
+width: 16px; 
+height: 16px;
+background-repeat: no-repeat;
+background-position: 0px 0px;
+margin-left: 2px;
+}
+.layout-turbo .layout-portlet-move a:hover{background-position: 0px -16px}
+.layout-turbo .layout-portlet-move a span{display: none}
+
+.layout-turbo .layout-portlet-move a.move-portlet-up{background-image: url("../images/movePortletUp.gif");}
+.layout-turbo .layout-portlet-move a.move-portlet-down{background-image: url("../images/movePortletDown.gif");}
+.layout-turbo .layout-portlet-move a.move-portlet-left{background-image: url("../images/movePortletLeft.gif");}
+.layout-turbo .layout-portlet-move a.move-portlet-right{background-image: url("../images/movePortletRight.gif");}
+.layout-turbo .layout-portlet-move a.remove-portlet-from-apge{background-image: url("../images/close.gif");}
+
+.layout-turbo .folder-title,
+.layout-turbo .page-title,
+.layout-turbo .layout-title,
+.layout-turbo .layout-edit-bar b{font-weight: bold; background: #c2c2c2; color: #666666; padding: 5px; display: block; width: auto; margin-bottom: 5px;}
+
+.layout-turbo .layout-edit-bar label{width: 71px; display: block; float: left; text-align: right; padding: 6px; clear: left}
+.layout-turbo .layout-edit-bar select{width: 200px;}
+.layout-turbo .layout-edit-bar input{margin-bottom: 5px; margin-top: 5px;}
+
+
+.layout-turbo .layout-turbo-addportlet{padding: 25px; background: #f2f2f2; text-align: center;}
+.layout-turbo .layout-turbo-addportlet a{
+background: url("../images/addportlet.png") no-repeat; 
+width: 146px; height: 30px;
+padding: 10px 48px 13px 35px;
+background-position: 0px 0px;
+color: white;
+}
+.layout-turbo .layout-turbo-addportlet a:hover{
+background-position: 0px -39px;
+}
+
+/* Layout configuration inside a portlet */
+
+.layout-turbo .portal-layout-cell .portal-layout-cell .layout-edit-bar{
+padding: 0px; 
+background: #f2f2f2 url("../images/portletheadingback.png") repeat-x top left;
+padding-top: 24px;
+padding-bottom: 5px;
+margin-bottom: 10px;
+}
+
+.layout-turbo .portal-layout-cell .layout-edit-bar b{padding-right: 0px}
+.layout-turbo .portal-layout-cell .layout-edit-bar .layout-title{
+padding: 4px;
+}
+
+.layout-turbo .portlet-edit-bar{
+background: url("../images/portlet-layout-bar-back.gif") no-repeat top left; 
+height: 18px;
+margin: 10px;
+margin-bottom: -5px;
+padding: 1px;
+}
+.layout-turbo .portlet-edit-bar a{display: block ; float: left; margin-top: 2px;}
+.layout-turbo .portlet-edit-bar select{width: 120px;}
+.layout-turbo .portlet-edit-bar label{
+float: left; 
+color: white; 
+display: block; 
+margin-top: 2px; 
+padding: 2px;
+font-weight: bold;
+}
+
+.layout-turbo .portlet-edit-bar select{background: transparent; border: 1px solid #666666; float: left; color: white; padding: 0px; height: 18px;}
+.layout-turbo .portlet-edit-bar select option{color: white; background: #035a8e; padding: 0px;}
+.layout-turbo .portal-layout-column{}
+
+.layout-turbo .layout-edit-bar fieldset{border: 1px solid white; padding: 5px; margin: 5px;}
+/* override the default styling */
+
+/* --------------------------------- */
+/* PLT.C.4 Sections                  */
+/* --------------------------------- */
+.layout-turbo .portlet-section-header {
+    background: #f2f2f2;
+    background-image: none;
+    color: #fff;
+    padding: 5px;
+    margin-right: 0px;
+    margin-left: 0px;
+    clear: both;
+}
+

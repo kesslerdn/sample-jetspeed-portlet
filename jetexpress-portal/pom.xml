@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one
+  or more contributor license agreements.  See the NOTICE file
+  distributed with this work for additional information
+  regarding copyright ownership.  The ASF licenses this file
+  to you under the Apache License, Version 2.0 (the
+  "License"); you may not use this file except in compliance
+  with the License.  You may obtain a copy of the License at
+  
+   http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing,
+  software distributed under the License is distributed on an
+  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  KIND, either express or implied.  See the License for the
+  specific language governing permissions and limitations
+  under the License.
+--><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <prerequisites>
+    <maven>2.0.9</maven>
+  </prerequisites>
+
+  <artifactId>jetexpress-portal</artifactId>
+  <name>jetexpress portal</name>
+  <parent>
+    <groupId>org.apache.portals.tutorials</groupId>
+    <artifactId>jetexpress</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <packaging>war</packaging>
+  <dependencies>
+    <!-- jetspeed compile time dependencies -->
+    <!--
+    <dependency>
+      <groupId>org.apache.portals.jetspeed-2</groupId>
+      <artifactId>jetspeed-api</artifactId>
+      <version>${org.apache.portals.jetspeed.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.portals.jetspeed-2</groupId>
+      <artifactId>jetspeed-portal</artifactId>
+      <version>${org.apache.portals.jetspeed.version}</version>
+    </dependency>
+    -->
+    <!-- jetspeed war dependencies -->
+    <dependency>
+      <groupId>org.apache.portals.jetspeed-2</groupId>
+      <artifactId>jetspeed-dependencies</artifactId>
+      <version>${org.apache.portals.jetspeed.version}</version>
+      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.portals.jetspeed-2</groupId>
+      <artifactId>jetspeed</artifactId>
+      <version>${org.apache.portals.jetspeed.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.portals.pluto</groupId>
+      <artifactId>pluto-container-api</artifactId>
+      <version>${org.apache.pluto.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.portals.jetspeed-2</groupId>
+        <artifactId>jetspeed-unpack-maven-plugin</artifactId>
+        <version>${org.apache.portals.jetspeed.version}</version>
+        <executions>
+          <execution>
+            <id>unpack-jetspeed-properties</id>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <unpack>
+                <artifact>org.apache.portals.jetspeed-2:jetspeed-portal-resources:jar</artifact>
+                <targetDirectory>${project.build.directory}/${project.build.finalName}</targetDirectory>
+                <resources>
+                  <resource>
+                    <path>conf/jetspeed</path>
+                    <include>jetspeed.properties</include>
+                    <destination>WEB-INF/conf</destination>
+                  </resource>
+                </resources>
+              </unpack>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.portals.jetspeed-2</groupId>
+            <artifactId>jetspeed-portal-resources</artifactId>
+            <version>${org.apache.portals.jetspeed.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.portals.jetspeed-2</groupId>
+        <artifactId>jetspeed-deploy-maven-plugin</artifactId>
+        <version>${org.apache.portals.jetspeed.version}</version>
+        <executions>
+          <execution>
+            <id>deploy-jetspeed-layouts</id>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <targetBaseDir>${project.build.directory}/${project.build.finalName}</targetBaseDir>
+              <destinations>
+                <local>WEB-INF/deploy/local</local>
+              </destinations>
+              <deployments>
+                <deployment>
+                  <artifact>org.apache.portals.jetspeed-2:jetspeed-layouts:war</artifact>
+                  <destination>local</destination>
+                </deployment>
+              </deployments>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.portals.jetspeed-2</groupId>
+            <artifactId>jetspeed-layouts</artifactId>
+            <version>${org.apache.portals.jetspeed.version}</version>
+            <type>war</type>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.portals.jetspeed-2</groupId>
+        <artifactId>jetspeed-fileutils-maven-plugin</artifactId>
+        <version>${org.apache.portals.jetspeed.version}</version>
+        <executions>
+          <execution>
+            <id>configure-jetspeed-properties</id>
+            <goals>
+              <goal>event</goal>
+            </goals>
+            <phase>process-resources</phase>
+            <configuration>
+              <srcFilePath>${project.build.directory}/${project.build.finalName}/WEB-INF/conf/jetspeed.properties</srcFilePath>
+              <editPattern>^jetui.customization.method%5Cs*=.*%24</editPattern><!-- use %24 for '$' and %5C for '\' -->
+              <replacePattern>jetui.customization.method%20=%20ajax</replacePattern><!-- use %20 for space -->
+              <event>edit</event>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warName>${pom.artifactId}</warName>
+          <overlays>
+            <overlay>
+              <id>jetspeed</id>
+              <groupId>org.apache.portals.jetspeed-2</groupId>
+              <artifactId>jetspeed</artifactId>
+              <excludes>
+                <exclude>WEB-INF/pages/**</exclude>
+                <exclude>WEB-INF/min-pages/**</exclude>
+                <exclude>WEB-INF/ui-pages/**</exclude>
+                <exclude>WEB-INF/min-ui-pages/**</exclude>
+                <exclude>WEB-INF/conf/jetspeed.properties</exclude>
+              </excludes>
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

@@ -1,0 +1,88 @@
+#*
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+
+#* Add the current layouts configuration values to the context *#
+#defineLayoutObjects()
+
+#* Loads our custom macros *#
+#parse($layoutDecoration.getResource("decorator-macros.vm"))
+
+#* Add all template constants to the current context *#
+#defineNavigationConstants()
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head> 
+
+#includeHeaderResource()
+
+    <meta http-equiv="Content-type" content="#ContentType()" />
+    <title>#PageTitle()</title>
+<link rel="shortcut icon" href="#BaseHref()images/jetspeed.jpg" type="image/x-icon" />
+#includeJavaScriptForHead()
+#IncludeStylesheets()
+
+</head>
+<body class="#PageBaseCSSClass()">
+<!--  BEGIN: layout/html/oldstyle/decorator.vm -->
+<!-- Page Action Bar -->
+#if ($request.getUserPrincipal())
+<a class="layout-oldstyle-logout" href="#BaseHref()login/logout">Logout</a>
+#end
+#PageActionBar()
+<!-- end of header -->
+</div>   
+<div id="layout-${rootFragment.id}" class="#PageBaseCSSClass()" >
+<div class="header">
+<h1 class="logo">Jetspeed 2</h1>
+<div class="menu">
+#set($pagesStandardMenu = $site.getMenu("pages"))#if(!$pagesStandardMenu.empty)
+#includeTabsNavigation($pagesStandardMenu $LEFT_TO_RIGHT)
+#end
+</div>
+</div>
+    <!-- Content Table -->
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" id="main">
+        <tr>            
+            <!-- Left Navigations Menu Table Data -->
+            #set($navigationsStandardMenu = $site.getMenu("navigations"))
+            #if(!$navigationsStandardMenu.empty)
+            <td valign="top" id="leftcol" >
+                <div id="navcolumn">
+                    <table cellpadding="0" cellspacing="4" border="0" width="100%">
+                        #includeLinksWithIconNavigation($navigationsStandardMenu $TOP_TO_BOTTOM)
+                    </table>
+                </div>
+            </td>
+            #end
+            
+            <!-- Content Table Data -->
+            <td nowrap="nowrap" valign="top">
+           <!-- Breadcrumbs Back Navigation -->
+      <div id="breadcrumbs">
+#set($breadcrumbsStandardMenu = $site.getMenu("breadcrumbs"))
+#if(!$breadcrumbsStandardMenu.empty)
+#includeLinksNavigation($breadcrumbsStandardMenu $LEFT_TO_RIGHT "" $BREADCRUMBS_STYLE "")
+#else
+        &nbsp;
+#end
+    </div>
+                
+                ## $jetspeed.include($jetspeed.currentFragment)
+                
+                <!--  END: layout/html/tigris/decorator.vm -->
+                

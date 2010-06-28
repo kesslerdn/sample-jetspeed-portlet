@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <!-- XML/Castor PageManager -->
+
+  <bean id="xmlDocumentHandlerFactory" class="org.apache.jetspeed.page.document.psml.DocumentHandlerFactoryImpl">
+    <meta key="j2:cat" value="xmlPageManager or pageSerializer" />
+    <constructor-arg>
+      <map>
+        <entry key=".psml">
+          <bean class="org.apache.jetspeed.page.document.psml.CastorFileSystemDocumentHandler">
+            <constructor-arg index="0">
+              <ref bean="IdGenerator" />
+            </constructor-arg>
+            <constructor-arg index="1">
+              <value>/JETSPEED-INF/castor/page-mapping.xml</value>
+            </constructor-arg>
+            <constructor-arg index="2">
+              <value>.psml</value>
+            </constructor-arg>
+            <constructor-arg index="3">
+              <value>org.apache.jetspeed.om.page.psml.PageImpl</value>
+            </constructor-arg>
+            <constructor-arg index="4">
+              <value>${psml.pages.path}</value>
+            </constructor-arg>
+            <constructor-arg index="5">
+              <ref bean="PageFileCache" />
+            </constructor-arg>
+          </bean>
+        </entry>
+        <entry key=".tpsml">
+          <bean class="org.apache.jetspeed.page.document.psml.CastorFileSystemDocumentHandler">
+            <constructor-arg index="0">
+              <ref bean="IdGenerator" />
+            </constructor-arg>
+            <constructor-arg index="1">
+              <value>/JETSPEED-INF/castor/page-mapping.xml</value>
+            </constructor-arg>
+            <constructor-arg index="2">
+              <value>.tpsml</value>
+            </constructor-arg>
+            <constructor-arg index="3">
+              <value>org.apache.jetspeed.om.page.psml.PageTemplateImpl</value>
+            </constructor-arg>
+            <constructor-arg index="4">
+              <value>${psml.pages.path}</value>
+            </constructor-arg>
+            <constructor-arg index="5">
+              <ref bean="PageFileCache" />
+            </constructor-arg>
+          </bean>
+        </entry>
+        <entry key=".dpsml">
+          <bean class="org.apache.jetspeed.page.document.psml.CastorFileSystemDocumentHandler">
+            <constructor-arg index="0">
+              <ref bean="IdGenerator" />
+            </constructor-arg>
+            <constructor-arg index="1">
+              <value>/JETSPEED-INF/castor/page-mapping.xml</value>
+            </constructor-arg>
+            <constructor-arg index="2">
+              <value>.dpsml</value>
+            </constructor-arg>
+            <constructor-arg index="3">
+              <value>org.apache.jetspeed.om.page.psml.DynamicPageImpl</value>
+            </constructor-arg>
+            <constructor-arg index="4">
+              <value>${psml.pages.path}</value>
+            </constructor-arg>
+            <constructor-arg index="5">
+              <ref bean="PageFileCache" />
+            </constructor-arg>
+          </bean>
+        </entry>
+        <entry key=".fpsml">
+          <bean class="org.apache.jetspeed.page.document.psml.CastorFileSystemDocumentHandler">
+            <constructor-arg index="0">
+              <ref bean="IdGenerator" />
+            </constructor-arg>
+            <constructor-arg index="1">
+              <value>/JETSPEED-INF/castor/page-mapping.xml</value>
+            </constructor-arg>
+            <constructor-arg index="2">
+              <value>.fpsml</value>
+            </constructor-arg>
+            <constructor-arg index="3">
+              <value>org.apache.jetspeed.om.page.psml.FragmentDefinitionImpl</value>
+            </constructor-arg>
+            <constructor-arg index="4">
+              <value>${psml.pages.path}</value>
+            </constructor-arg>
+            <constructor-arg index="5">
+              <ref bean="PageFileCache" />
+            </constructor-arg>
+          </bean>
+        </entry>
+        <entry key=".link">
+          <bean class="org.apache.jetspeed.page.document.psml.CastorFileSystemDocumentHandler">
+            <constructor-arg index="0">
+              <ref bean="IdGenerator" />
+            </constructor-arg>
+            <constructor-arg index="1">
+              <value>/JETSPEED-INF/castor/page-mapping.xml</value>
+            </constructor-arg>
+            <constructor-arg index="2">
+              <value>.link</value>
+            </constructor-arg>
+            <constructor-arg index="3">
+              <value>org.apache.jetspeed.om.page.psml.LinkImpl</value>
+            </constructor-arg>
+            <constructor-arg index="4">
+              <value>${psml.pages.path}</value>
+            </constructor-arg>
+            <constructor-arg index="5">
+              <ref bean="PageFileCache" />
+            </constructor-arg>
+          </bean>
+        </entry>
+        <entry key="folder.metadata">
+          <bean class="org.apache.jetspeed.page.document.psml.CastorFileSystemDocumentHandler">
+            <constructor-arg index="0">
+              <ref bean="IdGenerator" />
+            </constructor-arg>
+            <constructor-arg index="1">
+              <value>/JETSPEED-INF/castor/page-mapping.xml</value>
+            </constructor-arg>
+            <constructor-arg index="2">
+              <value>folder.metadata</value>
+            </constructor-arg>
+            <constructor-arg index="3">
+              <value>org.apache.jetspeed.om.folder.psml.FolderMetaDataImpl</value>
+            </constructor-arg>
+            <constructor-arg index="4">
+              <value>${psml.pages.path}</value>
+            </constructor-arg>
+            <constructor-arg index="5">
+              <ref bean="PageFileCache" />
+            </constructor-arg>
+          </bean>
+        </entry>
+        <entry key="page.security">
+          <bean class="org.apache.jetspeed.page.document.psml.CastorFileSystemDocumentHandler">
+            <constructor-arg index="0">
+              <ref bean="IdGenerator" />
+            </constructor-arg>
+            <constructor-arg index="1">
+              <value>/JETSPEED-INF/castor/page-mapping.xml</value>
+            </constructor-arg>
+            <constructor-arg index="2">
+              <value>page.security</value>
+            </constructor-arg>
+            <constructor-arg index="3">
+              <value>org.apache.jetspeed.om.page.psml.PageSecurityImpl</value>
+            </constructor-arg>
+            <constructor-arg index="4">
+              <value>${psml.pages.path}</value>
+            </constructor-arg>
+            <constructor-arg index="5">
+              <ref bean="PageFileCache" />
+            </constructor-arg>
+          </bean>
+        </entry>
+      </map>
+    </constructor-arg>
+  </bean>
+
+  <bean id="xmlFolderHandler" class="org.apache.jetspeed.page.document.psml.FileSystemFolderHandler">
+    <meta key="j2:cat" value="xmlPageManager or pageSerializer" />
+    <constructor-arg index="0">
+      <ref bean="IdGenerator" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <value>${psml.pages.path}</value>
+    </constructor-arg>
+    <constructor-arg index="2">
+      <ref bean="xmlDocumentHandlerFactory" />
+    </constructor-arg>
+    <constructor-arg index="3">
+      <ref bean="PageFileCache" />
+    </constructor-arg>
+  </bean>
+
+  <bean name="xmlPageManager" class="org.apache.jetspeed.page.psml.CastorXmlPageManager" init-method="init" destroy-method="destroy">
+    <meta key="j2:cat" value="xmlPageManager or pageSerializer" />
+    <constructor-arg index="0">
+      <ref bean="IdGenerator" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <ref bean="xmlDocumentHandlerFactory" />
+    </constructor-arg>
+    <constructor-arg index="2">
+      <ref bean="xmlFolderHandler" />
+    </constructor-arg>
+    <constructor-arg index="3">
+      <ref bean="PageFileCache" />
+    </constructor-arg>
+    <!-- permissions security enabled flag, default=false -->
+    <constructor-arg index="4">
+      <value>${page.manager.permissions.security}</value>
+    </constructor-arg>
+    <!-- constraints security enabled flag, default=true -->
+    <constructor-arg index="5">
+      <value>${page.manager.constraints.security}</value>
+    </constructor-arg>
+  </bean>
+
+  <!-- End XML/Castor PageManager -->
+
+  <!-- Database PageManager -->
+
+  <bean id="dbPageManagerImpl" class="org.apache.jetspeed.page.impl.DatabasePageManager" init-method="init" destroy-method="destroy">
+    <meta key="j2:cat" value="dbPageManager or pageSerializer" />
+    <!-- OJB configuration file resource path -->
+    <constructor-arg index="0">
+      <value>JETSPEED-INF/ojb/page-manager-repository.xml</value>
+    </constructor-arg>
+    <!-- fragment id generator -->
+    <constructor-arg index="1">
+      <ref bean="IdGenerator" />
+    </constructor-arg>
+    <!-- permissions security enabled flag, default=false -->
+    <constructor-arg index="2">
+      <value>${page.manager.permissions.security}</value>
+    </constructor-arg>
+    <!-- constraints security enabled flag, default=true -->
+    <constructor-arg index="3">
+      <value>${page.manager.constraints.security}</value>
+    </constructor-arg>
+    <!-- folder/page/link cache -->
+    <constructor-arg index="4">
+      <ref bean="pageManagerOidCache"/>
+    </constructor-arg>
+    <!-- folder/page/link path cache -->
+    <constructor-arg index="5">
+      <ref bean="pageManagerPathCache"/>
+    </constructor-arg>
+    <!-- fragment properties cache -->
+    <constructor-arg index="6">
+      <ref bean="pageManagerPropertiesCache"/>
+    </constructor-arg>
+    <!-- fragment properties path cache -->
+    <constructor-arg index="7">
+      <ref bean="pageManagerPropertiesPathCache"/>
+    </constructor-arg>
+    <!-- principal fragment properties cache -->
+    <constructor-arg index="8">
+      <ref bean="pageManagerPrincipalPropertiesCache"/>
+    </constructor-arg>
+    <!-- principal fragment properties path cache -->
+    <constructor-arg index="9">
+      <ref bean="pageManagerPrincipalPropertiesPathCache"/>
+    </constructor-arg>
+  </bean>
+
+  <bean id="dbPageManager" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+    <meta key="j2:cat" value="dbPageManager or pageSerializer" />
+    <meta key="j2:alias" value="org.apache.jetspeed.page.PageManager" />
+    <property name="transactionManager">
+      <ref bean="transactionManager" />
+    </property>
+    <property name="proxyInterfaces">
+      <value>org.apache.jetspeed.page.PageManager</value>
+    </property>
+    <property name="target">
+      <ref bean="dbPageManagerImpl" />
+    </property>
+    <property name="transactionAttributes">
+      <props>
+        <!--
+          note: set cache transaction method name patterns in pageManagerInterceptor
+          for methods that directly or indirectly add cache transactions so that
+          they can properly rollback and cleanup thread local storage
+        -->
+        <prop key="*">PROPAGATION_SUPPORTS</prop>
+        <prop key="*Exists">PROPAGATION_SUPPORTS</prop>
+        <prop key="addListener">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="addPages">PROPAGATION_REQUIRED,-org.apache.jetspeed.page.document.NodeException</prop>
+        <prop key="checkConstraint">PROPAGATION_SUPPORTS</prop>
+        <prop key="cleanupRequestCache">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="copy*">PROPAGATION_REQUIRED,-org.apache.jetspeed.page.document.NodeException</prop>
+        <prop key="create*">PROPAGATION_REQUIRED,-org.apache.jetspeed.page.document.NodeException</prop>
+        <prop key="deep*">PROPAGATION_REQUIRED,-org.apache.jetspeed.page.document.NodeException</prop>
+        <prop key="get*">PROPAGATION_SUPPORTS,+java.lang.SecurityException</prop>
+        <prop key="getConstraintsEnabled">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="getNodeReapingInterval">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="getPermissionsEnabled">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="isDistributed">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="new*">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="notifyUpdatedNode">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="remove*">PROPAGATION_REQUIRED,-org.apache.jetspeed.page.document.NodeException</prop>
+        <prop key="removeListener">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="reset">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="shutdown">PROPAGATION_NOT_SUPPORTED</prop>
+        <prop key="update*">PROPAGATION_REQUIRED,-org.apache.jetspeed.page.document.NodeException</prop>
+      </props>
+    </property>
+    <property name="preInterceptors">
+      <list>
+        <bean class="org.apache.jetspeed.util.interceptors.PageManagerInterceptor">
+          <!--
+            set cache transaction method name patterns for methods that
+            directly or indirectly add cache transactions so that they
+            can properly rollback and cleanup thread local storage
+          -->
+          <constructor-arg> 
+            <list>
+              <value>update*</value>
+              <value>addPages</value>
+            </list>
+          </constructor-arg>
+        </bean>
+      </list>
+    </property>
+    <!--  Replace support:
+      <property name="preInterceptors"> 
+      <list>
+      <bean id="methodReplayInterceptor" class="org.apache.jetspeed.util.interceptors.MethodReplayInterceptor">
+      <property name="retryCount" value="3"/>
+      <property name="retryInterval" value="500"/>
+      <property name="replayDecisionMaker">
+      <bean class="org.apache.jetspeed.util.interceptors.TransactionalMethodReplayDecisionMaker">
+      <property name="sqlErrorCodes">
+      <value>9999, 400, -80</value>
+      </property>
+      </bean>
+      </property>
+      </bean>
+      </list>
+      </property>
+    -->
+  </bean>
+
+  <!-- Inject Page Manager Proxy into Page Manager -->
+  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <meta key="j2:cat" value="dbPageManager or pageSerializer" />
+    <property name="targetObject">
+      <ref bean="dbPageManagerImpl" />
+    </property>
+    <property name="targetMethod">
+      <value>setPageManagerProxy</value>
+    </property>
+    <property name="arguments">
+      <list>
+        <ref bean="dbPageManager" />
+      </list>
+    </property>
+  </bean>
+
+  <!-- End Database PageManager -->
+
+  <!-- FactoryBean selecting which PageManager to use -->
+
+  <bean class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    <meta key="j2:cat" value="xmlPageManager" />
+    <meta key="j2:alias" value="org.apache.jetspeed.page.PageManager" />
+    <property name="targetBeanName" value="xmlPageManager" />
+  </bean>
+
+  <bean class="org.springframework.beans.factory.config.BeanReferenceFactoryBean">
+    <meta key="j2:cat" value="dbPageManager" />
+    <meta key="j2:alias" value="org.apache.jetspeed.page.PageManager" />
+    <property name="targetBeanName" value="dbPageManager" />
+  </bean>
+
+  <bean class="org.apache.jetspeed.components.factorybeans.NullReferenceFactoryBean">
+    <meta key="j2:cat" value="noPageManager" />
+    <meta key="j2:alias" value="org.apache.jetspeed.page.PageManager" />
+    <property name="objectType" value="org.apache.jetspeed.page.PageManager"></property>
+  </bean>
+
+  <!-- PortalSite -->
+  <bean id="org.apache.jetspeed.portalsite.PortalSiteContentTypeMapper" name="portalSiteContentTypeMapper"
+    class="org.apache.jetspeed.portalsite.impl.PortalSiteContentTypeMapperImpl">         
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <list>
+        <bean class="org.apache.jetspeed.portalsite.impl.ContentTypeMapping">
+          <constructor-arg index="0">
+            <value>^/content/.*\w[.](\w+)&#36;</value> <!-- use &#36; for '$' -->
+          </constructor-arg>
+          <constructor-arg index="1">
+            <value>&#36;1</value> <!-- use &#36; for '$' -->
+          </constructor-arg>
+        </bean>
+        <bean class="org.apache.jetspeed.portalsite.impl.ContentTypeMapping">
+          <constructor-arg index="0">
+            <value>^/content/</value>
+          </constructor-arg>
+          <constructor-arg index="1">
+            <value>html</value>
+          </constructor-arg>
+        </bean>
+      </list>
+    </constructor-arg>
+  </bean>
+  <bean id="org.apache.jetspeed.portalsite.PortalSite" name="portalSite"
+    class="org.apache.jetspeed.portalsite.impl.PortalSiteImpl">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <ref bean="org.apache.jetspeed.page.PageManager" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <ref bean="org.apache.jetspeed.portalsite.PortalSiteContentTypeMapper"/>
+    </constructor-arg>
+  </bean>
+
+  <!-- PageSerializer, source: xmlPageManager, dest: dbPageMmanager -->
+  <bean id="org.apache.jetspeed.page.PageSerializer" class="org.apache.jetspeed.page.PageSerializerImpl">
+    <meta key="j2:cat" value="pageSerializer" />
+    <constructor-arg index="0">
+      <ref bean="xmlPageManager" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <ref bean="dbPageManager" />
+    </constructor-arg>
+  </bean>
+
+  <!-- PageLayoutComponent -->
+  <bean id="org.apache.jetspeed.layout.PageLayoutComponent"
+    class="org.apache.jetspeed.layout.impl.PageLayoutComponentImpl">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg index="0">
+      <ref bean="org.apache.jetspeed.page.PageManager" />
+    </constructor-arg>
+    <constructor-arg index="1">
+      <value>jetspeed-layouts::VelocityOneColumn</value>
+    </constructor-arg>
+  </bean>
+
+</beans>

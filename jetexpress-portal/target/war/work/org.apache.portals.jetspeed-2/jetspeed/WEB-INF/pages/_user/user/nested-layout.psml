@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!-- nested-layout.psml -->
+<page id="_user-user-nested-layout"
+    xmlns="http://portals.apache.org/jetspeed"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://portals.apache.org/jetspeed http://portals.apache.org/jetspeed-2/2.2/schemas/psml.xsd">
+  <title>Nested Layout Test</title>
+  <short-title>Nested Layout</short-title>
+  <metadata name="title" xml:lang="ja">入れ子レイアウトテスト</metadata>
+  <metadata name="title" xml:lang="es">Prueba: puesta en página anidada</metadata>
+  <metadata name="title" xml:lang="hu">Beágyazott elrendezés teszt</metadata>
+  <metadata name="title" xml:lang="zh">内嵌布局测试</metadata>
+  <metadata name="title" xml:lang="zh-TW">內嵌佈局測試</metadata>
+  <metadata name="short-title" xml:lang="ja">入れ子レイアウト</metadata>
+  <metadata name="short-title" xml:lang="es">Anidación</metadata>
+  <metadata name="short-title" xml:lang="hu">Beágyazott elrendezés</metadata>
+  <metadata name="short-title" xml:lang="zh">内嵌布局</metadata>
+  <metadata name="short-title" xml:lang="zh-TW">內嵌佈局</metadata>
+
+  <fragment id="FRAG-100393" type="layout" name="jetspeed-layouts::VelocityOneColumn">
+    <fragment id="FRAG-100939" type="portlet" name="j2-admin::LocaleSelector">
+      <property layout="OneColumn" name="row" value="0"/>
+    </fragment>                                
+    <fragment id="FRAG-100345" type="layout" name="jetspeed-layouts::VelocityTwoColumns">
+      <property layout="OneColumn" name="row" value="1"/>
+      <property layout="TwoColumns" name="sizes" value="40%,60%"/>
+      <fragment id="FRAG-100121" type="portlet" name="j2-admin::LoginPortlet">
+        <property layout="TwoColumns" name="row" value="0"/>
+        <property layout="TwoColumns" name="column" value="0"/>
+      </fragment>                                
+      <fragment id="FRAG-100171" type="portlet" name="demo::UserInfoTest">
+        <property layout="TwoColumns" name="row" value="0"/>
+        <property layout="TwoColumns" name="column" value="1"/>
+      </fragment>    
+    </fragment>
+  </fragment>
+</page>

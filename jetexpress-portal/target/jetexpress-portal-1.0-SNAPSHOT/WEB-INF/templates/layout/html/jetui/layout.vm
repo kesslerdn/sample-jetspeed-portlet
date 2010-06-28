@@ -1,0 +1,99 @@
+#*
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*#
+#set($theme = $request.getAttribute("org.apache.jetspeed.theme"))
+#set($sizes = $jetspeed.columnSizes)
+#set($myPage = $jetspeed.page)
+#set($myFragment = $jetspeed.currentFragment)
+#set($decorator = $myPage.getDefaultDecorator($myFragment.getType()))
+#set($actions = $myFragment.decoration.actions)
+#set($messages = $portletConfig.getResourceBundle($renderRequest.Locale))
+#set($rootDecorator = $myPage.getRootFragment().decoration)
+
+#if($myFragment.getDecorator())
+  #set($decorator = $myFragment.getDecorator())
+#end
+
+#if($myFragment == $myPage.getRootFragment())
+  #set($isRoot=true)
+#end
+
+## Decorator  $decorator  ${decoTop} - ${decoBottom}
+#if ($isRoot)
+  #parse($myFragment.decoration.header)
+   #set($layoutClass = "portal-nested-layout")
+#else
+  #defineLayoutObjects()
+   #set($layoutClass = "portal-layout")
+#end
+
+#set($layoutType =$portletConfig.getInitParameter("layoutType"))
+#set($columnLayout = $renderRequest.getAttribute("columnLayout"))
+#set($decorationFactory = $renderRequest.getAttribute("decorationFactory"))
+#set($rc = $renderRequest.getAttribute("org.apache.jetspeed.request.RequestContext"))
+#set($psrc = $rc.getAttribute("org.apache.jetspeed.portalsite.PortalSiteRequestContext"))
+#set($profiledPage = $psrc.Page.Path)
+
+<div id="$renderResponse.namespace" class="${layoutClass} ${layoutClass}-${layoutType}">
+
+
+#set ($dcnt = 0) 
+#set ($columnIndex = 0)
+  
+#foreach($column in $columnLayout.columns)
+	  
+    #set($columnFloat = $columnLayout.getColumnFloat($columnIndex))
+    #set($columnWidth = $columnLayout.getColumnWidth($columnIndex))
+
+	<div id="column_${myFragment.getId()}_${columnIndex}"  column="${columnIndex}" name="$myFragment.name" locked='$myFragment.isLocked()'
+	     class="portal-layout-column portal-layout-column-${layoutType}-${columnIndex}" 
+	     style="float:${columnFloat}; width:${columnWidth};">
+	     
+	  #foreach($f in $column)
+      ## Set up coordinates for this fragment
+      ## #if($f.isLocked() == false)
+	      #set($coords = $columnLayout.getCoordinate($f))	  
+	      #set($col = $coords.x)
+	      #set($row = $coords.y)
+  	      ## Now get the real content
+	 	  $jetspeed.setCurrentFragment($f)	   
+  	      #if($f.type == "portlet")
+	         ## get the decorated Portlet content
+		     <div id='$f.id' locked='$f.isLocked()' name='$f.name' column='${col}' row='${row}' class="portal-layout-cell portal-layout-cell-${layoutType}-${row}-${col}" >
+			    #parse($f.decoration.template)
+		     </div>			    
+		   #else		
+			    $f.renderedContent			
+		   #end
+		  #end
+	##	#end
+	</div>
+	#set ($columnIndex = $columnIndex + 1)  
+#end  
+</div>  
+<br style="clear:both;"/>
+#if ($isRoot)
+  #parse($myFragment.decoration.footer)
+#end
+
+#foreach($f in $columnLayout.detachedPortlets)
+  #set($x = $f.getProperty("x"))
+  #set($y = $f.getProperty("y"))
+  $jetspeed.setCurrentFragment($f)	   
+   <div id='$f.id' detached='true' locked='$f.isLocked()' name='$f.name' column='${col}' row='${row}' style='position: absolute; top: ${x}px; left: ${y}px;'>
+	    #parse($f.decoration.template)
+   </div>			    
+#end

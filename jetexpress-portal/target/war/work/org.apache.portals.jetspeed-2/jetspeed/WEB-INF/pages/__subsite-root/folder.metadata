@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<folder
+    xmlns="http://portals.apache.org/jetspeed"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://portals.apache.org/jetspeed http://portals.apache.org/jetspeed-2/2.2/schemas/folder-metadata.xsd">
+
+  <title>Subsite Root Folder</title>  
+  <metadata name="title" xml:lang="ja">サブサイトルートフォルダ</metadata>
+  <metadata name="title" xml:lang="es">Carpeta raiz de subsite</metadata>
+  <metadata name="title" xml:lang="zh">子站点根文件夹</metadata>
+  <metadata name="title" xml:lang="zh-TW">子站點根文件夾</metadata>
+  <metadata name="title" xml:lang="ko">서브사이트 루트 폴더</metadata>
+
+
+  <document-order>subsite2-default-page.psml</document-order>
+  <document-order>subsite2-bookmarks.psml</document-order>
+  <document-order>subsite-bookmarks.psml</document-order>
+  <document-order>subsite-default-page.psml</document-order>
+
+  <security-constraints>
+    <security-constraint>
+      <roles>subsite, subsite2, user</roles>
+      <permissions>view</permissions>
+    </security-constraint>
+  </security-constraints>
+  
+</folder>

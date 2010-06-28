@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+    
+    http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <!-- Cache Manager -->
+    <bean id="cacheManagerConfig" class="org.apache.jetspeed.cache.impl.EhCacheConfigResource">
+        <meta key="j2:cat" value="default or cache"/>
+        <property name="configuration" ref="portal_configuration"/>
+        <property name="defaultConfigResource" value="ehcache.xml"/>
+    </bean>
+
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <meta key="j2:cat" value="default or cache"/>
+        <property name="configLocation" ref="cacheManagerConfig"/>
+    </bean>
+
+    <bean id="org.apache.jetspeed.cache.CacheMonitor" class="org.apache.jetspeed.cache.impl.JetspeedCacheMonitorImpl">
+        <meta key="j2:cat" value="default or cache"/>
+        <constructor-arg index="0">
+            <ref bean="cacheManager" />
+        </constructor-arg>
+    </bean>
+    
+    <!-- Page File Cache -->
+    <bean id="PageFileCache" class="org.apache.jetspeed.cache.file.FileCache" init-method="startFileScanner"
+        destroy-method="stopFileScanner">
+        <meta key="j2:cat" value="default or cache" />
+        <!-- Internal cache -->
+        <constructor-arg index="0">
+            <ref bean="internalPageFileCache" />
+        </constructor-arg>
+        <!-- Scan rate for changes in cached files on the file system -->
+        <constructor-arg index="1">
+            <value>${page.file.cache.scanRate}</value>
+        </constructor-arg>
+    </bean>
+    
+    <!-- Factory bean used to instantiate a EHCache with the specified name (and corresponding
+        configuration in cacheManager.xml -->
+    <bean id="ehPortletContentCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="portletContentCache" />
+    </bean>
+    
+    <bean id="ContentCacheKeyGenerator" class="org.apache.jetspeed.cache.impl.JetspeedCacheKeyGenerator">
+        <meta key="j2:cat" value="default or cache" />
+        <!-- Keys are order specific in the list:
+            where username  == the user principal name of the current user
+            pipeline  == the name of the active pipeline for the current request (portal | desktop)
+            windowid  == the window id (fragment id) of the portlet
+            sessionid == the current session id 
+            request.{param.name} == request parameter name, such "request.myparam"
+            session.{attribute-name} == session attribute name, such "session.myattribute"
+            
+            username|sessionid AND windowid are required
+        -->
+        <constructor-arg index='0'>
+            <list>
+                <value>sessionid</value>
+                <value>pipeline</value>
+                <value>windowid</value>
+            </list>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="portletContentCache" class="org.apache.jetspeed.cache.impl.EhPortletContentCacheImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg index="0">
+            <ref bean="ehPortletContentCache" />
+        </constructor-arg>
+        <constructor-arg index="1">
+            <ref bean="preferencesCache" />
+        </constructor-arg>
+        <constructor-arg index="2">
+            <ref bean="ContentCacheKeyGenerator" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="ehDecorationContentCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="decorationContentCache" />
+    </bean>
+    
+    <bean id="decorationContentCache" class="org.apache.jetspeed.cache.impl.EhDecorationContentCacheImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg index="0">
+            <ref bean="ehDecorationContentCache" />
+        </constructor-arg>
+        <constructor-arg index="1">
+            <ref bean="preferencesCache" />
+        </constructor-arg>
+        <constructor-arg index="2">
+            <ref bean="ContentCacheKeyGenerator" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="ehDecorationConfigurationCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="decorationConfigurationCache" />
+    </bean>
+    
+    <bean id="decorationConfigurationCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg>
+            <ref bean="ehDecorationConfigurationCache" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="ehPreferencesCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="preferencesCache" />
+    </bean>
+    
+    <bean id="preferencesCache" class="org.apache.jetspeed.cache.impl.EhCacheDistributedImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg>
+            <ref bean="ehPreferencesCache" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="ehPortletApplicationOidCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="portletApplicationOidCache" />
+    </bean>
+    
+    <bean id="ehPortletApplicationNameCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="portletApplicationNameCache" />
+    </bean>
+    
+    <bean id="ehDesktopContentCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="desktopContentCache" />
+    </bean>
+    
+    <bean id="portletApplicationOidCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg>
+            <ref bean="ehPortletApplicationOidCache" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="portletApplicationNameCache" class="org.apache.jetspeed.cache.impl.EhCacheDistributedImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg>
+            <ref bean="ehPortletApplicationNameCache" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="desktopContentCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg>
+            <ref bean="ehDesktopContentCache" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="ehPortletDefinitionOidCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="portletDefinitionOidCache" />
+    </bean>
+    
+    <bean id="ehPortletDefinitionNameCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="portletDefinitionNameCache" />
+    </bean>
+    
+    
+    <bean id="portletDefinitionOidCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg>
+            <ref bean="ehPortletDefinitionOidCache" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="portletDefinitionNameCache" class="org.apache.jetspeed.cache.impl.EhCacheDistributedImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg>
+            <ref bean="ehPortletDefinitionNameCache" />
+        </constructor-arg>
+    </bean>
+    
+    <!--  Active Authentication Cache: only use with Active Authentication -->
+    <!-- Factory bean used to instantiate a EHCache with the specified name (and corresponding
+        configuration in cacheManager.xml -->
+    <bean id="ehActiveAuthenticationCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="activeAuthenticationCache" />
+    </bean>
+    
+    <bean id="activeAuthenticationCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg index="0">
+            <ref bean="ehActiveAuthenticationCache" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="ehInternalPageFileCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="pageFileCache" />
+    </bean>
+    
+    <bean id="internalPageFileCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg>
+            <ref bean="ehInternalPageFileCache" />
+        </constructor-arg>
+    </bean>
+    
+    <bean id="ehInternalImportPageFileCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache" />
+        <property name="cacheManager">
+            <ref local="cacheManager" />
+        </property>
+        <property name="cacheName" value="importPageFileCache" />
+    </bean>
+    
+    <bean id="internalImportPageFileCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache" />
+        <constructor-arg>
+            <ref bean="ehInternalImportPageFileCache" />
+        </constructor-arg>
+    </bean>
+    
+    <!-- Page Manager Caches -->
+    <bean id="ehPageManagerOidCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache"/>
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheName" value="pageManagerOidCache"/>
+    </bean>
+    
+    <bean id="ehPageManagerPathCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache"/>
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheName" value="pageManagerPathCache"/>
+    </bean>
+    
+    <bean id="ehPageManagerPropertiesCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache"/>
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheName" value="pageManagerPropertiesCache"/>
+    </bean>
+
+    <bean id="ehPageManagerPropertiesPathCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache"/>
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheName" value="pageManagerPropertiesPathCache"/>
+    </bean>
+
+    <bean id="ehPageManagerPrincipalPropertiesCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache"/>
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheName" value="pageManagerPrincipalPropertiesCache"/>
+    </bean>
+
+    <bean id="ehPageManagerPrincipalPropertiesPathCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <meta key="j2:cat" value="default or cache"/>
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheName" value="pageManagerPrincipalPropertiesPathCache"/>
+    </bean>
+
+    <bean id="pageManagerOidCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache"/>
+        <constructor-arg><ref bean="ehPageManagerOidCache"/></constructor-arg>
+    </bean>
+    
+    <bean id="pageManagerPathCache" class="org.apache.jetspeed.cache.impl.EhCacheDistributedImpl">
+        <meta key="j2:cat" value="default or cache"/>
+        <constructor-arg><ref bean="ehPageManagerPathCache"/></constructor-arg>
+    </bean>
+    
+    <bean id="pageManagerPropertiesCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache"/>
+        <constructor-arg><ref bean="ehPageManagerPropertiesCache"/></constructor-arg>
+    </bean>
+    
+    <bean id="pageManagerPropertiesPathCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache"/>
+        <constructor-arg><ref bean="ehPageManagerPropertiesPathCache"/></constructor-arg>
+    </bean>
+    
+    <bean id="pageManagerPrincipalPropertiesCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache"/>
+        <constructor-arg><ref bean="ehPageManagerPrincipalPropertiesCache"/></constructor-arg>
+    </bean>
+    
+    <bean id="pageManagerPrincipalPropertiesPathCache" class="org.apache.jetspeed.cache.impl.EhCacheImpl">
+        <meta key="j2:cat" value="default or cache"/>
+        <constructor-arg><ref bean="ehPageManagerPrincipalPropertiesPathCache"/></constructor-arg>
+    </bean>
+    
+    <bean id="userContentCacheManager" class="org.apache.jetspeed.cache.impl.UserContentCacheManagerImpl">
+        <meta key="j2:cat" value="default or cache"/>
+        <constructor-arg><ref bean="portletContentCache"/></constructor-arg>
+        <constructor-arg><ref bean="decorationContentCache"/></constructor-arg>
+        <constructor-arg><ref bean="ContentCacheKeyGenerator"/></constructor-arg>
+    </bean>
+    
+</beans>

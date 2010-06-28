@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <bean id="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLdapStorageManager" class="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLdapStorageManager">
+    <meta key="j2:cat" value="ldapSecurity" />
+        <constructor-arg index="0" ref="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+        <constructor-arg index="1" ref="org.apache.jetspeed.security.mapping.SecurityEntityManager" />
+  </bean>
+  
+   <bean id="org.apache.jetspeed.security.spi.JetspeedPrincipalStorageManager" parent="baseTransactionProxy">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="proxyInterfaces">
+      <value>org.apache.jetspeed.security.spi.JetspeedPrincipalStorageManager</value>
+    </property>
+    <property name="target">
+      <ref bean="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLdapStorageManager" />
+    </property>
+    <property name="transactionAttributes">
+      <props>
+        <prop key="*">PROPAGATION_REQUIRED</prop>
+      </props>
+    </property>
+  </bean>
+    
+   <bean id="org.apache.jetspeed.security.spi.JetspeedPrincipalAssociationStorageManager" 
+    class="org.apache.jetspeed.security.spi.impl.JetspeedPrincipalLdapAssociationStorageManager">   
+        <meta key="j2:cat" value="ldapSecurity" />      
+        <constructor-arg index="0" ref="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+        <constructor-arg index="1" ref="org.apache.jetspeed.security.mapping.SecurityEntityManager" />              
+    </bean>     
+    
+  <!--
+    OnStartupSecuritySynchronizationBean will load the guest user from LDAP, in-case its not in portal database
+    It would be required for loading default page.
+    This bean is wrapped in a ContextRefreshableBeanInitializer to kickstart it once the complete Spring context is initialized.
+   -->
+  <bean id="_ldapOnStartupSecuritySynchronizer" class="org.apache.jetspeed.components.ContextRefreshableBeanInitializer">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <constructor-arg>
+      <bean class="org.apache.jetspeed.security.spi.impl.OnStartupSecuritySynchronizationBean">
+        <constructor-arg index="0" ref="org.apache.jetspeed.security.spi.JetspeedSecuritySynchronizer" />
+        <constructor-arg index="1" ref="org.apache.jetspeed.security.UserManager" />
+        <!-- synchronized all users ? -->
+        <constructor-arg index="2" type="boolean" value="false" />
+        <constructor-arg index="3" value="group" />
+      </bean>
+    </constructor-arg>
+  </bean>
+  
+  <bean id="org.apache.jetspeed.security.spi.JetspeedSecuritySynchronizer"
+    class="org.apache.jetspeed.security.spi.impl.DefaultJetspeedSecuritySynchronizer">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <constructor-arg index="0" ref="org.apache.jetspeed.security.spi.JetspeedPrincipalManagerProvider" />
+    <constructor-arg index="1" ref="org.apache.jetspeed.security.mapping.SecurityEntityManager" />
+  </bean>
+<!-- 
+  <bean id="org.apache.jetspeed.security.AuthenticationProvider" class="org.apache.jetspeed.security.impl.LdapAuthenticationProvider">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <constructor-arg index="0"  value="ldapAuthenticationProvider" />
+    <constructor-arg index="1"  value="Ldap Authentication Provider" />
+    <constructor-arg index="2"  value="login.conf"/>
+    <constructor-arg index="3"  ref="org.apache.jetspeed.security.spi.UserPasswordCredentialManager" />
+    <constructor-arg index="4"  ref="org.apache.jetspeed.security.UserManager" />
+    <constructor-arg index="5"  ref="org.apache.jetspeed.security.spi.JetspeedSecuritySynchronizer" />
+    <constructor-arg index="6"  ref="LdapSpringContext" />
+    <constructor-arg index="7"  value="${ldap.user.searchBase}" />
+    <constructor-arg index="8"  value="${ldap.user.filter}" />
+    <constructor-arg index="9"  value="${ldap.user.entryPrefix}" />
+    <constructor-arg index="10" value="${ldap.search.scope}" />
+  </bean>
+ -->
+  <bean id="org.apache.jetspeed.security.spi.impl.LdapUserPasswordCredentialManagerImpl"
+    class="org.apache.jetspeed.security.spi.impl.LdapUserPasswordCredentialManagerImpl">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <constructor-arg index="0" ref="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+    <constructor-arg index="1" ref="org.apache.jetspeed.security.spi.JetspeedSecurityPersistenceManager" />
+    <constructor-arg index="2" ref="org.apache.jetspeed.security.spi.UserPasswordCredentialPolicyManager" />
+    <constructor-arg index="3" ref="org.apache.jetspeed.security.spi.impl.LdapCredentialPasswordEncoder" />
+    <constructor-arg index="4"  ref="LdapSpringContext" />
+    <constructor-arg index="5"  value="${ldap.user.searchBase}" />
+    <constructor-arg index="6"  value="${ldap.user.filter}" />
+    <constructor-arg index="7"  value="${ldap.user.entryPrefix}" />
+    <constructor-arg index="8" value="${ldap.search.scope}" />
+    <property name="persistCredentials" value="true"/>
+    <property name="changePasswordByUser" value="false"/>
+  </bean>
+  
+  <!-- required when LdapUserPasswordCredentialManagerImpl.persistCredentials is set to true (see above) -->
+  <bean id="_LdapUserPasswordCredentialManagerImplInitializer1" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="targetObject"><ref bean="org.apache.jetspeed.security.spi.impl.LdapUserPasswordCredentialManagerImpl"/></property>
+    <property name="targetMethod"><value>setUserManager</value></property>
+    <property name="arguments">
+      <list>
+        <ref bean="org.apache.jetspeed.security.UserManager"/>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- required when LdapUserPasswordCredentialManagerImpl should synchronize users on authentication  -->
+  <bean id="_LdapUserPasswordCredentialManagerImplInitializer2" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="targetObject"><ref bean="org.apache.jetspeed.security.spi.impl.LdapUserPasswordCredentialManagerImpl"/></property>
+    <property name="targetMethod"><value>setJetspeedSecuritySynchronizer</value></property>
+    <property name="arguments">
+      <list>
+        <ref bean="org.apache.jetspeed.security.spi.JetspeedSecuritySynchronizer"/>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="org.apache.jetspeed.security.spi.impl.LdapCredentialPasswordEncoder"
+    class="org.apache.jetspeed.security.spi.impl.LdapCredentialPasswordEncoder">
+    <meta key="j2:cat" value="default or security" />
+    <constructor-arg index="0">
+      <value>CRYPT</value>
+    </constructor-arg>
+  </bean>
+
+  <bean id="org.apache.jetspeed.security.spi.UserPasswordCredentialManager" parent="baseTransactionProxy">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="proxyInterfaces">
+      <value>org.apache.jetspeed.security.spi.UserPasswordCredentialManager</value>
+    </property>
+    <property name="target">
+      <ref bean="org.apache.jetspeed.security.spi.impl.LdapUserPasswordCredentialManagerImpl" />
+    </property>
+    <property name="transactionAttributes">
+      <props>
+        <prop key="*">PROPAGATION_REQUIRED</prop>
+      </props>
+    </property>
+  </bean>
+  
+  <bean id="org.apache.jetspeed.security.mapping.SecurityEntityManager"
+    class="org.apache.jetspeed.security.mapping.ldap.dao.DefaultLDAPEntityManager">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <constructor-arg index="0"> 
+      <list>
+        <ref bean="UserDao" />
+        <ref bean="RoleDao" />
+            <ref bean="GroupDao" />
+      </list>
+    </constructor-arg>
+    <constructor-arg index="1">
+      <list>
+        <ref bean="UserRoleRelationDAO" />
+            <ref bean="GroupRoleRelationDAO" />
+            <ref bean="UserGroupRelationDAO" />
+      </list>
+    </constructor-arg>
+  </bean>
+  
+  <bean id="UserDaoConfiguration" class="org.apache.jetspeed.security.mapping.ldap.dao.LDAPEntityDAOConfiguration" init-method="initialize">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="ldapBase" value="${ldap.base}" />
+    <property name="searchBase" value="${ldap.user.searchBase}" />
+    <property name="searchFilter">
+      <bean class="org.apache.jetspeed.security.mapping.ldap.filter.SimpleFilter">
+        <constructor-arg index="0" value="${ldap.user.filter}" />
+      </bean>
+    </property>
+    <property name="ldapIdAttribute" value="uid" />
+    <property name="objectClasses" value="inetOrgPerson,organizationalPerson,person,top"/>
+    <property name="attributeDefinitions">
+      <set>
+        <bean class="org.apache.jetspeed.security.mapping.model.impl.AttributeDefImpl">
+          <constructor-arg index="0" value="uid" />
+          <constructor-arg index="1" value="false" />
+          <constructor-arg index="2" value="false" />
+          <property name="required" value="true"/>
+          <property name="idAttribute" value="true"/>
+        </bean>
+        <bean class="org.apache.jetspeed.security.mapping.model.impl.AttributeDefImpl">
+          <constructor-arg index="0" value="cn" />
+          <constructor-arg index="1" value="false" />
+          <constructor-arg index="2" value="false" />
+          <property name="required" value="true"/>
+          <property name="idAttribute" value="true"/>
+        </bean>
+        <bean class="org.apache.jetspeed.security.mapping.model.impl.AttributeDefImpl">
+          <constructor-arg index="0" value="sn" />
+          <constructor-arg index="1" value="false" />
+          <constructor-arg index="2" value="false" />
+          <property name="required" value="true"/>
+          <property name="idAttribute" value="true"/>
+        </bean>
+        <bean class="org.apache.jetspeed.security.mapping.model.impl.AttributeDefImpl">
+          <constructor-arg index="0" value="givenName" />
+          <constructor-arg index="1" value="false" />
+          <constructor-arg index="2" value="true" />
+          <constructor-arg index="3" value="user.name.given" />
+        </bean>
+      </set>
+    </property>
+    <property name="entityType" value="user" />
+  </bean>
+  <bean id="RoleDaoConfiguration" class="org.apache.jetspeed.security.mapping.ldap.dao.LDAPEntityDAOConfiguration" init-method="initialize">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="ldapBase" value="${ldap.base}" />
+    <property name="searchBase" value="${ldap.role.searchBase}" />
+    <property name="searchFilter">
+      <bean class="org.apache.jetspeed.security.mapping.ldap.filter.SimpleFilter">
+        <constructor-arg index="0" value="${ldap.role.filter}" />
+      </bean>
+    </property>
+    <property name="ldapIdAttribute" value="cn" />
+    <property name="objectClasses" value="groupOfNames,extensibleObject"/>
+    <property name="attributeDefinitions">
+      <set>
+        <bean class="org.apache.jetspeed.security.mapping.model.impl.AttributeDefImpl">
+          <constructor-arg type="java.lang.String" index="0" value="cn" />
+          <constructor-arg index="1" value="false" /> 
+          <constructor-arg index="2" value="false" /> 
+          <property name="required" value="true"/>
+          <property name="idAttribute" value="true"/>
+        </bean>
+        <bean class="org.apache.jetspeed.security.mapping.model.impl.AttributeDefImpl">
+          <constructor-arg index="0" value="description" />
+          <constructor-arg index="1" value="false" />
+          <constructor-arg index="2" value="true" />
+          <constructor-arg index="3" value="role.display.name" />
+        </bean>
+        <bean class="org.apache.jetspeed.security.mapping.model.impl.AttributeDefImpl">
+          <constructor-arg index="0" value="member" />
+          <constructor-arg index="1" value="true" />
+          <constructor-arg index="2" value="false" />
+          <property name="required" value="true" />
+        </bean>
+      </set>
+    </property>
+    <property name="entityType" value="role" />
+  </bean>
+  
+  <bean id="GroupDaoConfiguration" class="org.apache.jetspeed.security.mapping.ldap.dao.LDAPEntityDAOConfiguration" init-method="initialize">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="ldapBase" value="${ldap.base}" />
+    <property name="searchBase" value="${ldap.group.searchBase}" />
+    <property name="searchFilter">
+      <bean class="org.apache.jetspeed.security.mapping.ldap.filter.SimpleFilter">
+        <constructor-arg index="0" value="${ldap.group.filter}" />
+      </bean>
+    </property>
+    <property name="ldapIdAttribute" value="cn" />
+    <property name="objectClasses" value="groupOfNames,extensibleObject"/>
+    <property name="attributeDefinitions">
+      <set>
+        <bean class="org.apache.jetspeed.security.mapping.model.impl.AttributeDefImpl">
+          <constructor-arg index="0" value="cn" />
+          <constructor-arg index="1" value="false" />
+          <constructor-arg index="2" value="false" />
+          <property name="required" value="true"/>
+          <property name="idAttribute" value="true"/>
+        </bean>
+        <bean class="org.apache.jetspeed.security.mapping.model.impl.AttributeDefImpl">
+          <constructor-arg index="0" value="description" />
+          <constructor-arg index="1" value="false" />
+          <constructor-arg index="2" value="true" />
+          <constructor-arg index="3" value="group.display.name" />
+        </bean>
+        <bean class="org.apache.jetspeed.security.mapping.model.impl.AttributeDefImpl">
+          <constructor-arg index="0" value="member" />
+          <constructor-arg index="1" value="true" />
+          <constructor-arg index="2" value="false" />
+          <property name="required" value="true" />
+        </bean>
+      </set>
+    </property>
+    <property name="entityType" value="group" />
+  </bean>  
+  <bean id="UserDao" class="org.apache.jetspeed.security.mapping.ldap.dao.impl.SpringLDAPEntityDAO">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <constructor-arg ref="UserDaoConfiguration"/>
+    <property name="ldapTemplate">
+      <bean class="org.springframework.ldap.core.LdapTemplate">
+        <constructor-arg ref="LdapSpringContext" />
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="UserRoleRelationDAO" class="org.apache.jetspeed.security.mapping.ldap.dao.impl.AttributeBasedRelationDAO">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="relationAttribute" value="member" />
+    <property name="attributeContainsInternalId" value="true" />
+    <property name="useFromEntityAttribute" value="false" />
+    <property name="relationType">
+      <bean class="org.apache.jetspeed.security.mapping.impl.SecurityEntityRelationTypeImpl">
+        <constructor-arg index="0" value="isMemberOf" />
+        <constructor-arg index="1" value="user" />
+        <constructor-arg index="2" value="role" />
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="UserGroupRelationDAO" class="org.apache.jetspeed.security.mapping.ldap.dao.impl.AttributeBasedRelationDAO">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="relationAttribute" value="member" />
+    <property name="attributeContainsInternalId" value="true" />
+    <property name="useFromEntityAttribute" value="false" />
+    <property name="relationType">
+      <bean class="org.apache.jetspeed.security.mapping.impl.SecurityEntityRelationTypeImpl">
+        <constructor-arg index="0" value="isMemberOf" />
+        <constructor-arg index="1" value="user" />
+        <constructor-arg index="2" value="group" />
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="GroupRoleRelationDAO" class="org.apache.jetspeed.security.mapping.ldap.dao.impl.AttributeBasedRelationDAO">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="relationAttribute" value="member" />
+    <property name="attributeContainsInternalId" value="true" />
+    <property name="useFromEntityAttribute" value="false" />
+    <property name="relationType">
+      <bean class="org.apache.jetspeed.security.mapping.impl.SecurityEntityRelationTypeImpl">
+        <constructor-arg index="0" value="isMemberOf" />
+        <constructor-arg index="1" value="group" />
+        <constructor-arg index="2" value="role" />
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="RoleDao" class="org.apache.jetspeed.security.mapping.ldap.dao.impl.SpringLDAPEntityDAO">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <constructor-arg ref="RoleDaoConfiguration"/>
+    <property name="ldapTemplate">
+      <bean class="org.springframework.ldap.core.LdapTemplate">
+        <constructor-arg ref="LdapSpringContext" />
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="GroupDao" class="org.apache.jetspeed.security.mapping.ldap.dao.impl.SpringLDAPEntityDAO">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <constructor-arg ref="GroupDaoConfiguration"/>
+    <property name="ldapTemplate">
+      <bean class="org.springframework.ldap.core.LdapTemplate">
+        <constructor-arg ref="LdapSpringContext" />
+      </bean>
+    </property>
+  </bean>
+  
+  <bean id="ldapEnvironmentProperties" class="org.springframework.beans.factory.config.MapFactoryBean">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="sourceMap">
+      <map>
+            <!--  specify additional ldap context environment parameters like the GullibleSSLSocketFactory if you need it for ldaps://         
+            <entry key="java.naming.ldap.factory.socket" value="org.apache.jetspeed.security.util.GullibleSSLSocketFactory" />
+            -->
+      </map>
+    </property>
+  </bean>
+
+  <bean id="LdapSpringContext" class="org.springframework.ldap.pool.factory.MutablePoolingContextSource">
+    <meta key="j2:cat" value="ldapSecurity" />
+    <property name="contextSource">
+      <bean class="org.springframework.ldap.core.support.LdapContextSource">
+        <property name="url" value="${ldap.url}"/>
+        <property name="base" value="${ldap.base}"/>
+        <property name="userDn" value="${ldap.userDn}"/>
+        <property name="password" value="${ldap.password}"/>
+        <property name="baseEnvironmentProperties" ref="ldapEnvironmentProperties"/>
+        <property name="pooled" value="false"/>
+      </bean>  
+    </property>
+    <property name="dirContextValidator">
+      <bean class="org.springframework.ldap.pool.validation.DefaultDirContextValidator">
+        <!-- Fix/workaround for Spring LDAP-189 bug, see: http://jira.springframework.org/browse/LDAP-189 -->
+        <property name="searchControls">
+          <bean class="javax.naming.directory.SearchControls">
+             <property name="searchScope" value="0"/> <!-- enforce searchScope OBJECT_SCOPE -->
+             <property name="countLimit" value="1"/>
+             <property name="timeLimit" value="500"/>
+             <property name="returningAttributes" value="objectClass"/>
+          </bean>
+        </property>
+      </bean>
+    </property>
+    <property name="maxActive" value="${ldap.context.pool.maxActive}"/>
+    <property name="maxIdle" value="${ldap.context.pool.maxIdle}"/>
+    <property name="testOnBorrow" value="true" />
+  </bean>
+  
+</beans>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <bean id="_portletDefinitionImplPortletPreferencesProviderInitializer"
+    class="org.apache.jetspeed.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or registry" />
+    <property name="className" value="org.apache.jetspeed.om.portlet.impl.PortletDefinitionImpl" />
+    <property name="methodName" value="setPortletPreferencesProvider" />
+    <property name="typeName" value="org.apache.jetspeed.components.portletpreferences.PortletPreferencesProvider" />
+    <property name="value">
+      <ref bean="org.apache.jetspeed.components.portletpreferences.PortletPreferencesProvider" />
+    </property>
+  </bean>
+
+  <!-- PortletEntity is obsolete
+  <bean id="_portletEntityImplPortletRegistryInitializer"
+    class="org.apache.jetspeed.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or registry" />
+    <property name="className" value="org.apache.jetspeed.components.portletentity.PortletEntityImpl" />
+    <property name="methodName" value="setPortletRegistry" />
+    <property name="typeName" value="org.apache.jetspeed.components.portletregistry.PortletRegistry" />
+    <property name="value">
+      <ref bean="portletRegistry" />
+    </property>
+  </bean>
+   -->
+
+  <bean id="_abstractBaseElementInitializer"
+    class="org.apache.jetspeed.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or xmlPageManager or pageSerializer" />
+    <property name="className" value="org.apache.jetspeed.om.page.psml.AbstractBaseElement" />
+    <property name="methodName" value="setPermissionsFactory" />
+    <property name="typeName" value="org.apache.jetspeed.security.PermissionFactory" />
+    <property name="value">
+      <ref bean="org.apache.jetspeed.security.PermissionManager" />
+    </property>
+  </bean>
+
+  <bean id="_baseElementImplInitializer" class="org.apache.jetspeed.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or dbPageManager or pageSerializer" />
+    <property name="className" value="org.apache.jetspeed.om.page.impl.BaseElementImpl" />
+    <property name="methodName" value="setPermissionsFactory" />
+    <property name="typeName" value="org.apache.jetspeed.security.PermissionFactory" />
+    <property name="value">
+      <ref bean="org.apache.jetspeed.security.PermissionManager" />
+    </property>
+  </bean>
+
+  <bean id="_dbFolderImplInitializer" class="org.apache.jetspeed.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or dbPageManager or pageSerializer" />
+    <property name="className" value="org.apache.jetspeed.om.folder.impl.FolderImpl" />
+    <property name="methodName" value="setPermissionsFactory" />
+    <property name="typeName" value="org.apache.jetspeed.security.PermissionFactory" />
+    <property name="value">
+      <ref bean="org.apache.jetspeed.security.PermissionManager" />
+    </property>
+  </bean>
+
+  <bean id="_xmlFolderImplInitializer" class="org.apache.jetspeed.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or xmlPageManager or pageSerializer" />
+    <property name="className" value="org.apache.jetspeed.om.folder.psml.FolderImpl" />
+    <property name="methodName" value="setPermissionsFactory" />
+    <property name="typeName" value="org.apache.jetspeed.security.PermissionFactory" />
+    <property name="value">
+      <ref bean="org.apache.jetspeed.security.PermissionManager" />
+    </property>
+  </bean>
+
+  <bean id="_jetspeedPrincipalConcreteClassRowReaderInitializer"
+    class="org.apache.jetspeed.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or security" />
+    <property name="className" value="org.apache.jetspeed.security.util.ojb.JetspeedPrincipalConcreteClassRowReader" />
+    <property name="methodName" value="setJetspeedPrincipalManagerProvider" />
+    <property name="typeName" value="org.apache.jetspeed.security.JetspeedPrincipalManagerProvider" />
+    <property name="value">
+      <ref bean="org.apache.jetspeed.security.spi.JetspeedPrincipalManagerProvider" />
+    </property>
+  </bean>
+
+  <bean id="_transientJetspeedPrincipalInitializer"
+    class="org.apache.jetspeed.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or security" />
+    <property name="className" value="org.apache.jetspeed.security.impl.TransientJetspeedPrincipal" />
+    <property name="methodName" value="setJetspeedPrincipalManagerProvider" />
+    <property name="typeName" value="org.apache.jetspeed.security.JetspeedPrincipalManagerProvider" />
+    <property name="value">
+      <ref bean="org.apache.jetspeed.security.spi.JetspeedPrincipalManagerProvider" />
+    </property>
+  </bean>
+
+  <bean id="_baseJetspeedPrincipalManagerInitializer"
+    class="org.apache.jetspeed.components.LifecycleAwareStaticClassInitializer">
+    <meta key="j2:cat" value="default or security" />
+    <property name="className" value="org.apache.jetspeed.security.impl.BaseJetspeedPrincipalManager" />
+    <property name="methodName" value="setJetspeedPrincipalManagerProvider" />
+    <property name="typeName" value="org.apache.jetspeed.security.JetspeedPrincipalManagerProvider" />
+    <property name="value">
+      <ref bean="org.apache.jetspeed.security.spi.JetspeedPrincipalManagerProvider" />
+    </property>
+  </bean>
+
+</beans>

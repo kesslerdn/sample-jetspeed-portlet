@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at 
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed  under the  License is distributed on an "AS IS" BASIS,
+WITHOUT  WARRANTIES OR CONDITIONS  OF ANY KIND, either  express  or
+implied.
+
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <!-- ====================================================== -->
+    <!-- Declare Pluto Service Accessors                        -->
+    <!-- ====================================================== -->
+
+    <bean id="org.apache.pluto.services.PlutoServices"
+          class="org.apache.jetspeed.container.services.JetspeedPlutoServices">
+      <meta key="j2:cat" value="default" />          
+      <constructor-arg><ref bean="PortalContext"/></constructor-arg>
+      <constructor-arg><ref bean="org.apache.pluto.services.EventCoordinationService"/></constructor-arg>
+      <constructor-arg><ref bean="org.apache.pluto.container.PortletRequestContextService"/></constructor-arg>
+      <constructor-arg><ref bean="org.apache.pluto.container.FilterManagerService"/></constructor-arg>
+      <constructor-arg><ref bean="org.apache.pluto.container.PortletURLListenerService"/></constructor-arg>
+      <constructor-arg><ref bean="org.apache.pluto.services.NamespaceMapper"/></constructor-arg>
+      <constructor-arg><ref bean="org.apache.pluto.services.PortletEnvironmentService"/></constructor-arg>
+      <constructor-arg><ref bean="org.apache.pluto.services.UserInfoService"/></constructor-arg>            
+      <constructor-arg><ref bean="org.apache.pluto.services.PortletInvokerService"/></constructor-arg>            
+      <constructor-arg><ref bean="org.apache.jetspeed.components.portletpreferences.PortletPreferencesProvider"/></constructor-arg>
+      <constructor-arg><ref bean="org.apache.pluto.services.RequestDispatcherService"/></constructor-arg>
+    </bean>
+    
+    <bean id='org.apache.jetspeed.events.PortletEventQueue'
+          class='org.apache.jetspeed.events.PortletEventQueueImpl'>
+      <meta key="j2:cat" value="default" />          
+    </bean>
+    
+    <bean id='org.apache.pluto.services.EventCoordinationService'
+          class='org.apache.jetspeed.events.EventCoordinationServiceImpl'>
+      <meta key="j2:cat" value="default" />                 
+      <constructor-arg><ref bean="org.apache.jetspeed.events.PortletEventQueue"/></constructor-arg>
+      <constructor-arg><ref bean="PortalStatistics"/></constructor-arg>
+      <constructor-arg><ref bean="org.apache.jetspeed.aggregator.PortletTrackingManager"/></constructor-arg>
+      <constructor-arg><ref bean="org.apache.jetspeed.security.SecurityAccessController" /></constructor-arg>
+      <!-- flag indicating whether to check jetspeed-portlet.xml security constraints
+        before rendering a portlet. If security check fails, do not fire events
+      -->
+      <constructor-arg type="boolean"><value>true</value></constructor-arg>                       
+    </bean>
+    
+    <bean id="org.apache.pluto.container.PortletRequestContextService"
+          class="org.apache.jetspeed.container.impl.PortletRequestContextServiceImpl">
+      <meta key="j2:cat" value="default" />
+    </bean>
+    
+    <bean id="org.apache.pluto.container.FilterManagerService"
+          class="org.apache.jetspeed.container.services.JetspeedFilterManagerService">
+      <meta key="j2:cat" value="default" />
+      <constructor-arg><ref bean="portletFactory" /></constructor-arg>
+    </bean>
+    
+    <bean id="org.apache.pluto.container.PortletURLListenerService"
+          class="org.apache.jetspeed.container.services.JetspeedPortletURLListenerService">
+      <meta key="j2:cat" value="default" />       
+      <constructor-arg><ref bean="portletFactory" /></constructor-arg>
+    </bean>
+    
+    <bean id="org.apache.pluto.services.NamespaceMapper"
+          class="org.apache.jetspeed.container.namespace.JetspeedNamespaceMapperImpl">
+      <meta key="j2:cat" value="default" />          
+      <constructor-arg index="0"><value>js_</value></constructor-arg>
+    </bean>
+
+    <bean id="org.apache.pluto.services.PortletEnvironmentService"
+          class="org.apache.jetspeed.container.services.JetspeedPortletEnvironmentService">
+      <meta key="j2:cat" value="default" />          
+    </bean>
+
+    <bean id="org.apache.pluto.services.PortletInvokerService"
+          class="org.apache.jetspeed.container.invoker.JetspeedPortletInvokerService">          
+        <meta key="j2:cat" value="default" />
+        <constructor-arg index="0"><ref bean="javax.servlet.ServletConfig" /></constructor-arg>
+        <constructor-arg index="1"><ref bean="PortalContext" /></constructor-arg>
+        <constructor-arg index="2"><ref bean="portletFactory" /></constructor-arg>
+    </bean>
+
+    <bean id="org.apache.pluto.services.RequestDispatcherService"
+          class="org.apache.pluto.container.impl.RequestDispatcherServiceImpl">
+      <meta key="j2:cat" value="default or registry" />
+      <!-- Pluto HttpServletPortletRequestWrapper.DispatchDetection:
+           - 0: CHECK_STATE (default)
+           - 1: CHECK_REQUEST_WRAPPER_STACK
+           - 2: EVALUATE
+      -->
+      <constructor-arg><value>0</value></constructor-arg>          
+    </bean>
+
+</beans>

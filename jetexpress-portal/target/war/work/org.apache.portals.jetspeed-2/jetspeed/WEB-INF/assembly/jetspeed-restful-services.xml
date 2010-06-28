@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+  
+  http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+  
+  <bean id="jacksonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper">
+    <meta key="j2:cat" value="default" />
+  </bean>
+  
+  <bean id="jacksonJaxbIntrospector" class="org.codehaus.jackson.xc.JaxbAnnotationIntrospector">
+    <meta key="j2:cat" value="default" />
+  </bean>
+  
+  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <meta key="j2:cat" value="default" />
+    <property name="targetObject">
+      <bean class="org.springframework.beans.factory.config.PropertyPathFactoryBean">
+        <meta key="j2:cat" value="default" />
+        <property name="targetObject" ref="jacksonObjectMapper" />
+        <property name="propertyPath" value="serializationConfig"/>
+      </bean>
+    </property>
+    <property name="targetMethod" value="setAnnotationIntrospector"/>
+    <property name="arguments">
+      <list>
+        <ref bean="jacksonJaxbIntrospector" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <meta key="j2:cat" value="default" />
+    <property name="targetObject">
+      <bean class="org.springframework.beans.factory.config.PropertyPathFactoryBean">
+        <meta key="j2:cat" value="default" />
+        <property name="targetObject" ref="jacksonObjectMapper" />
+        <property name="propertyPath" value="deserializationConfig"/>
+      </bean>
+    </property>
+    <property name="targetMethod" value="setAnnotationIntrospector"/>
+    <property name="arguments">
+      <list>
+        <ref bean="jacksonJaxbIntrospector" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="jaxrsJsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
+    <meta key="j2:cat" value="default" />
+    <property name="mapper" ref="jacksonObjectMapper" />
+  </bean>
+  
+  <bean id="cxfJaxrsBus" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <meta key="j2:cat" value="default" />
+    <property name="targetClass" value="org.apache.cxf.BusFactory"/>
+    <property name="targetMethod" value="getThreadDefaultBus"/>
+    <property name="arguments">
+      <list>
+        <value>true</value>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="cxfDestinationFactory" class="org.apache.cxf.transport.servlet.ServletTransportFactory">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg ref="cxfJaxrsBus" />
+  </bean>
+  
+  <bean id="cxfJaxrsServletController" class="org.apache.cxf.transport.servlet.ServletController">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg ref="cxfDestinationFactory" />
+    <constructor-arg ref="javax.servlet.ServletConfig" />
+    <constructor-arg>
+      <bean class="org.springframework.beans.factory.config.PropertyPathFactoryBean">
+        <meta key="j2:cat" value="default" />
+        <property name="targetObject" ref="javax.servlet.ServletConfig" />
+        <property name="propertyPath" value="servletContext"/>
+      </bean>
+    </constructor-arg>
+    <constructor-arg ref="cxfJaxrsBus" />
+  </bean>
+  
+  <!-- 
+    The internal server factory. 
+    Each JAX-RS service component is registered by "resourceProvider" property. 
+  -->
+  <bean id="cxfJaxrsServerFactoryBean" class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean">
+    <meta key="j2:cat" value="default" />
+    <property name="address" value="/" />
+    <property name="destinationFactory" ref="cxfDestinationFactory" />
+    <property name="providers">
+      <list>
+        <ref bean="jaxrsJsonProvider" />
+      </list>
+    </property>
+    <property name="resourceProviders">
+      <list>
+        <bean class="org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider">
+          <meta key="j2:cat" value="default" />
+          <constructor-arg ref="jaxrsPortletRegistryService" />
+        </bean>
+        <bean class="org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider">
+          <meta key="j2:cat" value="default" />
+          <constructor-arg ref="jaxrsPageLayoutService" />
+        </bean>
+        <bean class="org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider">
+          <meta key="j2:cat" value="default" />
+          <constructor-arg ref="jaxrsPageManagementService" />
+        </bean>
+        <bean class="org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider">
+          <meta key="j2:cat" value="default" />
+          <constructor-arg ref="jaxrsUserManagerService" />
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- Portlet Registry JAX-RS Service -->
+  <bean id="jaxrsPortletRegistryService" class="org.apache.jetspeed.services.rest.PortletRegistryService">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg ref="org.apache.jetspeed.security.SecurityAccessController" />
+    <constructor-arg ref="org.apache.jetspeed.components.portletregistry.PortletRegistry" />
+    <constructor-arg ref="org.apache.jetspeed.search.SearchEngine" />
+  </bean>
+  
+  <!-- Portal Page Layout Management JAX-RS Service -->
+  <bean id="jaxrsPageLayoutService" class="org.apache.jetspeed.services.rest.PageLayoutService">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg ref="org.apache.jetspeed.layout.PageLayoutComponent" />
+    <constructor-arg ref="org.apache.jetspeed.components.portletregistry.PortletRegistry" />
+    <constructor-arg ref="PortletActionSecurityBehavior" />
+  </bean>
+
+  <!-- User Management JAX-RS Service -->
+  <bean id="jaxrsUserManagerService" class="org.apache.jetspeed.services.rest.UserManagerService">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg ref="org.apache.jetspeed.security.UserManager" />
+    <constructor-arg ref="org.apache.jetspeed.security.RoleManager" />
+    <constructor-arg ref="org.apache.jetspeed.security.GroupManager" />
+    <constructor-arg ref="org.apache.jetspeed.profiler.Profiler" />
+    <constructor-arg ref="org.apache.jetspeed.page.PageManager" />
+    <constructor-arg ref="RolesSecurityBehavior" />
+  </bean>
+
+  <!-- Portal Page Management JAX-RS Service -->
+  <bean id="jaxrsPageManagementService" class="org.apache.jetspeed.services.rest.PageManagementService">
+    <meta key="j2:cat" value="default" />
+    <constructor-arg ref="org.apache.jetspeed.page.PageManager" />
+  </bean>
+  
+</beans>

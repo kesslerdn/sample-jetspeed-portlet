@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<page-template id="definition"
+    xmlns="http://portals.apache.org/jetspeed"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://portals.apache.org/jetspeed http://portals.apache.org/jetspeed-2/2.2/schemas/tpsml.xsd">
+
+  <title>TEMPLATE</title>
+  <fragment id="template-top2" type="layout" name="jetspeed-layouts::VelocityThreeColumns">
+    <property name="sizes" value="15%,70%,15%"></property>
+
+    <fragment id="jsSpaceNavigator" type="portlet" name="j2-admin::SpaceNavigator" decorator='clear'>
+            <property name="y" value="300"></property>
+            <property name="x" value="20"></property>            
+            <property name="state" value="detach"></property>                        
+    </fragment>
+
+   <fragment id="jstbLeft" type="layout" name="jetspeed-layouts::VelocityOneColumn">
+        <property name="row" value="0"></property>
+        <property name="column" value="0"></property>
+	    <property name="state" value="normal"></property>
+	    <property name='toolbar' value='true'></property>                                
+	    <property name='class' value='jsLeftToolbar'></property>                                
+	    <fragment id="jsPageNavigator" type="portlet" name="j2-admin::PageNavigator">
+	  	        <property name="row" value="0"></property>
+	            <property name="column" value="0"></property>
+	            <property name="state" value="normal"></property>
+	            <property name="tool" value="true"></property>                        
+	    </fragment>
+	</fragment>
+    
+    <page-fragment id="page-template">
+      <property name="column" value="1"/>
+      <property name="row" value="0"/>
+    </page-fragment>
+
+   <fragment id="jstbRight" type="layout" name="jetspeed-layouts::VelocityOneColumn">
+        <property name="row" value="0"></property>
+        <property name="column" value="2"></property>    
+	    <property name="state" value="normal"></property>                                
+	    <property name='toolbar' value='true'></property>
+        <property name="state" scope="user" scopeValue="guest" value="closed"></property>	    
+	    <property name='class' value='jsRightToolbar'></property>                                
+	    <fragment id="jsToolbox" type="portlet" name="j2-admin::JetspeedToolbox">
+	            <property name="row" value="0"></property>
+	            <property name="column" value="0"></property>
+	            <property name="state" value="normal"></property>                        
+	            <property name="tool" value="true"></property>	                                    
+	    </fragment>
+   </fragment>
+    
+<!--    
+    <fragment-reference id="page-template-wp-reference" refid="wp-definition">
+      <property name="row" value="1"/>
+    </fragment-reference>
+  -->   
+  </fragment>  
+</page-template>
