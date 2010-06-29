@@ -231,6 +231,8 @@
           <string>WEB-INF/pages/Security/user-mgt.psml</string>
           <string>WEB-INF/pages/spaces.psml</string>
           <string>WEB-INF/pages/template.tpsml</string>
+          <string>WEB-INF/pages/tutorial/default-page.psml</string>
+          <string>WEB-INF/pages/tutorial/folder.metadata</string>
           <string>WEB-INF/lib/jetspeed-cm-2.2.1.jar</string>
           <string>WEB-INF/lib/spring-core-2.5.6.jar</string>
           <string>WEB-INF/lib/spring-aop-2.5.6.jar</string>

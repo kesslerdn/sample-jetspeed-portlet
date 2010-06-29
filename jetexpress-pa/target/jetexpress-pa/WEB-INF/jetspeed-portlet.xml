@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app id="jetexpress-pa" version="1.0"
+    xmlns="http://portals.apache.org/jetspeed"
+    xmlns:js="http://portals.apache.org/jetspeed"
+    xmlns:dc="http://www.purl.org/dc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://portals.apache.org/jetspeed http://portals.apache.org/jetspeed-2/2.1/schemas/jetspeed-portlet.xsd">
+
+    <js:services>
+        <js:service name='GroupManager'/>
+        <js:service name='PageManager'/>
+        <js:service name='PortalAdministration'/>
+        <js:service name='PortletRegistryComponent'/>
+        <js:service name='RoleManager'/>
+        <js:service name='UserManager'/>
+    </js:services>
+
+</portlet-app>

@@ -17,10 +17,11 @@
   specific language governing permissions and limitations
   under the License.
 -->
-<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" 
-              version="2.0" 
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-              xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             version="2.0"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd
+http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd ">
 
     <portlet>
         <description>This is a test.</description>
@@ -41,6 +42,62 @@
             <short-title>My Portlet</short-title>
             <keywords>test</keywords>
         </portlet-info>
+    </portlet>
+
+    <portlet>
+        <description>Bonjour Monde Portlet</description>
+        <portlet-name>BonjourMonde</portlet-name>
+        <display-name>Bonjour Monde</display-name>
+        <portlet-class>org.apache.portals.tutorials.BonjourMonde</portlet-class>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>VIEW</portlet-mode>
+            <portlet-mode>EDIT</portlet-mode>
+            <portlet-mode>HELP</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>Bonjour Monde</title>
+            <short-title>Bonjour</short-title>
+            <keywords>tutorial,bonjour,hello</keywords>
+        </portlet-info>
+    </portlet>
+
+    <portlet>
+        <description>The 2nd Tutorial with JSP</description>
+        <portlet-name>TutorialPortlet2</portlet-name>
+        <display-name>Tutorial Portlet 2</display-name>
+        <portlet-class>org.apache.portals.bridges.common.GenericServletPortlet</portlet-class>
+        <init-param>
+            <name>ViewPage</name>
+            <value>/WEB-INF/view/tutorial.jsp</value>
+        </init-param>
+        <init-param>
+            <name>EditPage</name>
+            <value>/WEB-INF/view/tutorial.jsp</value>
+        </init-param>
+        <init-param>
+            <name>HelpPage</name>
+            <value>/WEB-INF/view/tutorial.jsp</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>VIEW</portlet-mode>
+            <portlet-mode>EDIT</portlet-mode>
+            <portlet-mode>HELP</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+      <portlet-info>
+            <title>Tutorial Portlet</title>
+            <short-title>tutorial</short-title>
+        <keywords>tutorial,hello,JSP,taglib</keywords>
+        </portlet-info>
+        <portlet-preferences>
+            <preference>
+                <name>test</name>
+                <value>hello</value>
+            </preference>
+        </portlet-preferences>
     </portlet>
 
 </portlet-app>

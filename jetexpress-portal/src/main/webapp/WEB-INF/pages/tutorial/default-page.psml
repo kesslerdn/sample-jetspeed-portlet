@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page>
+  <defaults layout-decorator="jetexpress" portlet-decorator="jetexpress" skin="jetexpress"/>
+  <title>JetExpress Tutorials</title>
+  <short-title>Tutorials</short-title>
+  <fragment id="tutorial-100" type="layout" name="jetspeed-layouts::VelocityTwoColumns">
+    <fragment id="express-101" type="portlet" name="jetexpress-pa::BonjourMonde"/>
+    <fragment id="express-102" type="portlet" name="jetexpress-pa::TutorialPortlet2"/>
+  </fragment>
+</page>

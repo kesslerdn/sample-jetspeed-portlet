@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<folder>
+  <title >Tutorial</title>
+  <metadata name="title" xml:lang="fr">Autodidacte</metadata>
+  <security-constraints>
+    <security-constraints-ref>public-edit</security-constraints-ref>
+  </security-constraints>
+</folder>

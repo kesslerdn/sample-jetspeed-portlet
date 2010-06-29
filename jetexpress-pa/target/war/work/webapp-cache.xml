@@ -7,8 +7,11 @@
           <string>help.jsp</string>
           <string>maximized.jsp</string>
           <string>normal.jsp</string>
+          <string>WEB-INF/jetspeed-portlet.xml</string>
           <string>WEB-INF/portlet.xml</string>
+          <string>WEB-INF/view/tutorial.jsp</string>
           <string>WEB-INF/web.xml</string>
+          <string>WEB-INF/classes/org/apache/portals/tutorials/BonjourMonde.class</string>
           <string>WEB-INF/classes/org/apache/portals/tutorials/MyPortlet.class</string>
           <string>WEB-INF/lib/jstl-1.2.jar</string>
         </pathsSet>
